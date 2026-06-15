@@ -120,9 +120,20 @@
     } else {
       state.round++;
       state.difficulty = 1 + (state.round - 1) * 0.4;
-      resetBall();
       updateHud();
+      showGetReady();
     }
+  }
+
+  function showGetReady() {
+    state.mode = 'getready';
+    overlay.classList.remove('hidden');
+    overlay.innerHTML = '<h1>Get Ready</h1><h2>Round ' + state.round + ' of 5</h2>';
+    setTimeout(function () {
+      resetBall();
+      overlay.classList.add('hidden');
+      state.mode = 'playing';
+    }, 1200);
   }
 
   function addParticles(x, y, color, count) {
@@ -432,7 +443,7 @@
 
     if (state.mode === 'start') {
       drawStartScreen();
-    } else if (state.mode === 'playing' || state.mode === 'result') {
+    } else if (state.mode === 'playing' || state.mode === 'result' || state.mode === 'getready') {
       drawPlaying();
     } else if (state.mode === 'gameover') {
       drawGameOver();
