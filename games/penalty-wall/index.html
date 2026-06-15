@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Penalty Wall</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="budget-display">Budget: $80</span>
+      <span id="health-display">Health: 3</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="500"></canvas>
+    <div id="message-overlay">
+      <h1>PENALTY WALL</h1>
+      <p>Tower defense: click grid cells to place blockers</p>
+      <p>Deflect 20 incoming footballs!</p>
+      <button id="start-btn">DEFEND!</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

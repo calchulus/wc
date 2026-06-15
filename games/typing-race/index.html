@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Commentary Typing Race</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="round-display">Round: 1/10</span>
+      <span id="wpm-display">WPM: 0</span>
+    </div>
+    <div id="game-area">
+      <div id="commentary-text"></div>
+      <div id="typed-display"></div>
+      <div id="timer-display">0.0s</div>
+      <div id="accuracy-display">100%</div>
+    </div>
+    <div id="message-overlay">
+      <h1>COMMENTARY TYPING RACE</h1>
+      <p>Type football commentary as fast as you can!</p>
+      <p>10 rounds, increasing text length</p>
+      <button id="start-btn">START RACE!</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

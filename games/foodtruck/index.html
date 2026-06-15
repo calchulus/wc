@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Food Truck Rally</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="timer-display">⏱ 60s</span>
+      <span id="combo-display">Combo: 0</span>
+    </div>
+    <div id="order-area">
+      <div id="order-label">Current Order:</div>
+      <div id="order-display"></div>
+      <div id="input-display"></div>
+    </div>
+    <div id="btn-grid">
+      <button class="ingredient-btn" data-item="🍔">🍔</button>
+      <button class="ingredient-btn" data-item="🌭">🌭</button>
+      <button class="ingredient-btn" data-item="🌮">🌮</button>
+      <button class="ingredient-btn" data-item="🍟">🍟</button>
+      <button class="ingredient-btn" data-item="🥤">🥤</button>
+      <button class="ingredient-btn" data-item="🍦">🍦</button>
+    </div>
+    <div id="stats-bar">
+      <span id="served-display">Served: 0</span>
+      <span id="lost-display">Lost: 0</span>
+    </div>
+    <div id="message-overlay">
+      <h1>FOOD TRUCK RALLY</h1>
+      <p>Fulfill customer orders by tapping ingredients</p>
+      <p>Build combos for bonus points!</p>
+      <p>60 seconds on the clock</p>
+      <button id="start-btn">OPEN SHOP</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

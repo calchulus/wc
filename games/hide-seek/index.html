@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Fan Hide & Seek</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="level-display">Level: 1</span>
+      <span id="items-display">Items: 0/0</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="message-overlay">
+      <h1>FAN HIDE & SEEK</h1>
+      <p>Use arrow keys to sneak past guards</p>
+      <p>Collect items for bonus points</p>
+      <p>Reach the exit door to win!</p>
+      <button id="start-btn">START</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

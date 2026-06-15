@@ -1,0 +1,148 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1f3c 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+}
+
+#game-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+}
+
+#hud {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 16px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#hud span {
+  background: rgba(0,0,0,0.4);
+  padding: 4px 14px;
+  border-radius: 4px;
+}
+
+#game-area {
+  width: 100%;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 32px;
+  min-height: 200px;
+}
+
+#commentary-text {
+  font-size: 24px;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  min-height: 60px;
+  letter-spacing: 0.5px;
+}
+
+#typed-display {
+  font-size: 24px;
+  color: #fff;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  min-height: 60px;
+  letter-spacing: 0.5px;
+}
+
+#typed-display .correct {
+  color: #22c55e;
+}
+
+#typed-display .incorrect {
+  color: #ef4444;
+  text-decoration: underline;
+}
+
+#typed-display .cursor {
+  border-right: 2px solid #fbbf24;
+  animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { border-color: #fbbf24; }
+  51%, 100% { border-color: transparent; }
+}
+
+#timer-display {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
+#accuracy-display {
+  font-size: 18px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
+
+#message-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  z-index: 20;
+  border-radius: 12px;
+}
+
+#message-overlay.hidden {
+  display: none;
+}
+
+#message-overlay h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#message-overlay p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #94a3b8;
+}
+
+#start-btn, #replay-btn {
+  margin-top: 16px;
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #f59e0b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#start-btn:hover, #replay-btn:hover {
+  background: #fbbf24;
+}

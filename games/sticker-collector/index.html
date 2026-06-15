@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Sticker Collector</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="collected-display">Collected: 0/16</span>
+      <span id="timer-display">Time: 0</span>
+    </div>
+    <canvas id="gameCanvas" width="480" height="640"></canvas>
+    <div id="overlay">
+      <h1>STICKER COLLECTOR</h1>
+      <p>Catch falling country flag stickers!</p>
+      <p>Collect all 16 unique flags to win</p>
+      <p>← → or A/D to move basket</p>
+      <p>Duplicates cost 5 points!</p>
+      <button class="btn" id="start-btn">START COLLECTING</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

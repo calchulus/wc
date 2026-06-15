@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Stadium Jigsaw</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 100</span>
+      <span id="timer-display">Time: 60</span>
+      <span id="swaps-display">Swaps: 0</span>
+    </div>
+    <canvas id="gameCanvas" width="480" height="480"></canvas>
+    <div id="overlay">
+      <h1>STADIUM JIGSAW</h1>
+      <p>Swap tiles to restore the pattern</p>
+      <p>Tap two tiles to swap them</p>
+      <p>Fewer swaps = higher score!</p>
+      <button class="btn" id="start-btn">START PUZZLE</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

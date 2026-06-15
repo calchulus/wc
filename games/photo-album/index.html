@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Fan Photo Album</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="moves-display">Moves: 0</span>
+      <span id="pairs-display">Pairs: 0/8</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="message-overlay">
+      <h1>FAN PHOTO ALBUM</h1>
+      <p>Find all matching pairs!</p>
+      <p>Click cards to flip them</p>
+      <p>Matched pairs stay revealed</p>
+      <button id="start-btn">START</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

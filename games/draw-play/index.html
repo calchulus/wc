@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Draw the Play</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="round-display">Round: 1/5</span>
+    </div>
+    <div id="scenario-box">
+      <p id="scenario-text">Loading scenario...</p>
+    </div>
+    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <div id="controls">
+      <button id="clear-btn">CLEAR</button>
+      <button id="submit-btn">SUBMIT</button>
+    </div>
+    <div id="rating-display"></div>
+    <div id="message-overlay">
+      <h1>DRAW THE PLAY</h1>
+      <p>Draw tactical arrows on the whiteboard</p>
+      <p>Click-drag to draw, submit for AI rating</p>
+      <button id="start-btn">START DRAFTING!</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

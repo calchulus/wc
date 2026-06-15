@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>World Cup Maze</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="level-display">Level: 1</span>
+      <span id="timer-display">Time: 0</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="600"></canvas>
+    <div id="overlay">
+      <h1>WORLD CUP MAZE</h1>
+      <p>Use arrow keys to navigate</p>
+      <p>Reach the goal (🥅) past the defenders (🏃)</p>
+      <p>Collect stars (⭐) for bonus points</p>
+      <button class="btn" id="start-btn">ENTER THE MAZE</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

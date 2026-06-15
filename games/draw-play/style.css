@@ -1,0 +1,157 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1f3c 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+}
+
+#game-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 640px;
+}
+
+#hud {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 12px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#hud span {
+  background: rgba(0,0,0,0.4);
+  padding: 4px 14px;
+  border-radius: 4px;
+}
+
+#scenario-box {
+  width: 100%;
+  background: rgba(245,158,11,0.15);
+  border: 1px solid rgba(245,158,11,0.3);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+#scenario-text {
+  color: #fbbf24;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+#gameCanvas {
+  border: 2px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  cursor: crosshair;
+  display: block;
+  background: #1a3320;
+}
+
+#controls {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+#clear-btn, #submit-btn {
+  padding: 10px 28px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#clear-btn {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+#clear-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+#submit-btn {
+  background: #22c55e;
+  color: #fff;
+}
+
+#submit-btn:hover {
+  background: #16a34a;
+}
+
+#rating-display {
+  margin-top: 12px;
+  font-size: 20px;
+  color: #fbbf24;
+  font-weight: bold;
+  min-height: 30px;
+}
+
+#message-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.8);
+  color: #fff;
+  z-index: 20;
+  border-radius: 8px;
+}
+
+#message-overlay.hidden {
+  display: none;
+}
+
+#message-overlay h1 {
+  font-size: 36px;
+  margin-bottom: 12px;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#message-overlay p {
+  font-size: 16px;
+  margin-bottom: 8px;
+  color: #94a3b8;
+}
+
+#start-btn, #replay-btn {
+  margin-top: 16px;
+  padding: 12px 32px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #f59e0b;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+#start-btn:hover, #replay-btn:hover {
+  background: #fbbf24;
+}
