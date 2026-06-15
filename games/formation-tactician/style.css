@@ -1,0 +1,271 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #0a1628;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  overflow: hidden;
+  color: #fff;
+}
+
+#game-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+#gameCanvas {
+  border: 2px solid #2a5a1f;
+  border-radius: 4px;
+  display: block;
+  cursor: grab;
+  touch-action: none;
+}
+
+#gameCanvas:active {
+  cursor: grabbing;
+}
+
+#hud {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 600px;
+  padding: 0 4px;
+}
+
+#hud span {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+#formation-display {
+  color: #4ade80;
+}
+
+#score-display {
+  color: #fbbf24;
+  font-size: 16px;
+}
+
+#rating-display {
+  color: #60a5fa;
+}
+
+#controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  max-width: 600px;
+}
+
+#formation-presets {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.preset-btn {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.preset-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.preset-btn.active {
+  background: #166534;
+  color: #4ade80;
+  border-color: #4ade80;
+}
+
+#action-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+#reset-btn, #start-btn, #play-again-btn, #overlay-start-btn {
+  padding: 10px 28px;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.2s;
+}
+
+#reset-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#reset-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+#start-btn {
+  background: #dc2626;
+  color: #fff;
+}
+
+#start-btn:hover {
+  background: #ef4444;
+}
+
+#start-btn:disabled {
+  background: #6b7280;
+  cursor: not-allowed;
+}
+
+#play-again-btn, #overlay-start-btn {
+  background: #166534;
+  color: #4ade80;
+}
+
+#play-again-btn:hover, #overlay-start-btn:hover {
+  background: #15803d;
+}
+
+#match-log {
+  width: 100%;
+  max-width: 600px;
+  max-height: 80px;
+  overflow-y: auto;
+  font-size: 11px;
+  color: #64748b;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  line-height: 1.5;
+}
+
+#match-log:empty {
+  display: none;
+}
+
+#match-log .event {
+  padding: 1px 0;
+}
+
+#match-log .goal {
+  color: #fbbf24;
+  font-weight: 700;
+}
+
+#match-log .chance {
+  color: #60a5fa;
+}
+
+#match-log .weakness {
+  color: #f87171;
+}
+
+#message-overlay, #result-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(10, 22, 40, 0.92);
+  color: #fff;
+  z-index: 20;
+  text-align: center;
+  padding: 20px;
+}
+
+#message-overlay.hidden, #result-overlay.hidden {
+  display: none;
+}
+
+#message-overlay h1 {
+  font-size: 36px;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+#message-overlay p {
+  font-size: 14px;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+#result-overlay h2 {
+  font-size: 32px;
+  margin-bottom: 16px;
+}
+
+#result-stats {
+  font-size: 15px;
+  margin-bottom: 16px;
+  color: #cbd5e1;
+  line-height: 1.8;
+}
+
+#tactical-analysis {
+  font-size: 13px;
+  color: #94a3b8;
+  max-width: 400px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+#tactical-analysis .weakness-label {
+  color: #f87171;
+  font-weight: 700;
+}
+
+#tactical-analysis .strength-label {
+  color: #4ade80;
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  #message-overlay h1 {
+    font-size: 26px;
+  }
+  .preset-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  #hud span {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VAR Replay Challenge</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="game-canvas"></canvas>
+    <div id="ui-overlay">
+      <div id="menu-screen">
+        <div class="var-header">VAR REPLAY CHALLENGE</div>
+        <div class="subtitle">Review the replay and make your call!</div>
+        <div class="instructions">You have 3 seconds to decide if a play is GOAL, NO GOAL, FOUL, or OFFSIDE.</div>
+        <div class="instructions">Score points for correct calls. Faster answers = more points.</div>
+        <button id="start-btn" class="var-btn">START REVIEW</button>
+      </div>
+      <div id="decision-screen" style="display:none">
+        <div id="timer-bar"><div id="timer-fill"></div></div>
+        <div id="timer-text">3.0s</div>
+        <div id="round-info">Round <span id="round-num">1</span>/10</div>
+        <div id="decision-buttons">
+          <button class="dec-btn goal-btn" data-call="GOAL">GOAL</button>
+          <button class="dec-btn nogoal-btn" data-call="NO GOAL">NO GOAL</button>
+          <button class="dec-btn foul-btn" data-call="FOUL">FOUL</button>
+          <button class="dec-btn offside-btn" data-call="OFFSIDE">OFFSIDE</button>
+        </div>
+      </div>
+      <div id="result-screen" style="display:none">
+        <div id="result-title"></div>
+        <div id="result-explanation"></div>
+        <div id="result-score">Score: <span id="current-score">0</span></div>
+        <button id="next-btn" class="var-btn">NEXT REPLAY</button>
+      </div>
+      <div id="gameover-screen" style="display:none">
+        <div class="var-header">FINAL VERDICT</div>
+        <div id="final-score-display"></div>
+        <div id="accuracy-display"></div>
+        <div id="verdict-text"></div>
+        <button id="replay-btn" class="var-btn">REVIEW AGAIN</button>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

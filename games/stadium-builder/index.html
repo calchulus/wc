@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stadium Builder</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game-container">
+  <div id="header">
+    <h1>Stadium Builder</h1>
+    <div id="theme-selector">
+      <label>Theme:</label>
+      <select id="theme-select">
+        <option value="classic">Classic</option>
+        <option value="modern">Modern</option>
+        <option value="futuristic">Futuristic</option>
+        <option value="eco">Eco-Friendly</option>
+      </select>
+    </div>
+    <button id="save-btn" title="Save Design">Save</button>
+    <button id="load-btn" title="Load Design">Load</button>
+    <button id="leaderboard-btn" title="Leaderboard">Leaderboard</button>
+  </div>
+  <div id="main-area">
+    <div id="sidebar">
+      <div id="budget-panel">
+        <div id="budget-label">Budget</div>
+        <div id="budget-bar-container">
+          <div id="budget-bar"></div>
+        </div>
+        <div id="budget-text">1000 / 1000</div>
+      </div>
+      <div id="components-panel">
+        <h3>Components</h3>
+        <div id="component-list"></div>
+      </div>
+      <div id="score-panel">
+        <h3>Score</h3>
+        <div id="score-breakdown">
+          <div class="score-row"><span>Capacity:</span><span id="score-capacity">0</span></div>
+          <div class="score-row"><span>Aesthetics:</span><span id="score-aesthetics">0</span></div>
+          <div class="score-row"><span>Fan Experience:</span><span id="score-fan">0</span></div>
+          <div class="score-row"><span>Sustainability:</span><span id="score-sustainability">0</span></div>
+          <div class="score-row total"><span>Total:</span><span id="score-total">0</span></div>
+        </div>
+      </div>
+      <button id="clear-btn">Clear All</button>
+    </div>
+    <div id="canvas-area">
+      <canvas id="stadium-canvas"></canvas>
+      <div id="tooltip" class="hidden"></div>
+    </div>
+  </div>
+  <div id="leaderboard-modal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Local Leaderboard</h2>
+      <div id="leaderboard-list"></div>
+      <button id="close-leaderboard">Close</button>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>

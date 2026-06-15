@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Penalty Kick Duel</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="score-display">Score: 0</span>
+      <span id="round-display">Round: 1/5</span>
+    </div>
+    <canvas id="gameCanvas" width="600" height="500"></canvas>
+    <div id="power-bar-container">
+      <div id="power-bar"></div>
+    </div>
+    <div id="message-overlay">
+      <h1>PENALTY KICK DUEL</h1>
+      <p>Click to aim your crosshair</p>
+      <p>Click again to shoot!</p>
+      <p>Best of 5 rounds</p>
+      <button id="start-btn">KICK OFF</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

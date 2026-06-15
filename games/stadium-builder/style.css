@@ -1,0 +1,84 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a1a2e; color: #e0e0e0; overflow: hidden; height: 100vh; }
+
+#game-container { display: flex; flex-direction: column; height: 100vh; }
+
+#header {
+  display: flex; align-items: center; gap: 16px; padding: 8px 16px;
+  background: #16213e; border-bottom: 2px solid #0f3460;
+}
+#header h1 { font-size: 1.3rem; color: #e94560; white-space: nowrap; }
+#theme-selector { display: flex; align-items: center; gap: 6px; }
+#theme-selector label { font-size: 0.85rem; }
+#theme-select { padding: 4px 8px; border-radius: 4px; border: 1px solid #0f3460; background: #1a1a2e; color: #e0e0e0; }
+#header button { padding: 5px 12px; border: 1px solid #0f3460; border-radius: 4px; background: #16213e; color: #e0e0e0; cursor: pointer; font-size: 0.8rem; }
+#header button:hover { background: #0f3460; }
+
+#main-area { display: flex; flex: 1; overflow: hidden; }
+
+#sidebar {
+  width: 240px; min-width: 200px; background: #16213e; padding: 12px;
+  display: flex; flex-direction: column; gap: 12px; overflow-y: auto;
+  border-right: 2px solid #0f3460;
+}
+
+#budget-panel { text-align: center; }
+#budget-label { font-size: 0.85rem; margin-bottom: 4px; }
+#budget-bar-container { height: 18px; background: #1a1a2e; border-radius: 9px; overflow: hidden; border: 1px solid #0f3460; }
+#budget-bar { height: 100%; background: linear-gradient(90deg, #e94560, #f5a623); width: 100%; transition: width 0.3s; border-radius: 9px; }
+#budget-text { font-size: 0.8rem; margin-top: 4px; color: #aaa; }
+
+#components-panel h3, #score-panel h3 { font-size: 0.95rem; color: #e94560; margin-bottom: 8px; }
+
+#component-list { display: flex; flex-direction: column; gap: 6px; }
+.component-btn {
+  display: flex; align-items: center; gap: 8px; padding: 8px 10px;
+  background: #1a1a2e; border: 2px solid #0f3460; border-radius: 6px;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.component-btn:hover { border-color: #e94560; background: #1e2a4a; }
+.component-btn.selected { border-color: #e94560; background: #2a1a3e; }
+.component-btn .icon { font-size: 1.3rem; }
+.component-btn .info { flex: 1; }
+.component-btn .name { font-size: 0.8rem; font-weight: 600; }
+.component-btn .cost { font-size: 0.7rem; color: #f5a623; }
+.component-btn .stats { font-size: 0.65rem; color: #888; }
+
+#score-breakdown { display: flex; flex-direction: column; gap: 4px; }
+.score-row { display: flex; justify-content: space-between; font-size: 0.8rem; padding: 2px 0; }
+.score-row.total { border-top: 1px solid #0f3460; margin-top: 4px; padding-top: 6px; font-weight: bold; color: #e94560; }
+
+#clear-btn { padding: 8px; border: 1px solid #e94560; border-radius: 6px; background: transparent; color: #e94560; cursor: pointer; font-size: 0.85rem; margin-top: auto; }
+#clear-btn:hover { background: #e94560; color: #fff; }
+
+#canvas-area { flex: 1; position: relative; overflow: hidden; }
+#stadium-canvas { display: block; width: 100%; height: 100%; }
+#tooltip {
+  position: absolute; background: #16213eee; color: #e0e0e0; padding: 6px 10px;
+  border-radius: 4px; font-size: 0.75rem; pointer-events: none; z-index: 10;
+  border: 1px solid #0f3460; max-width: 200px;
+}
+
+.hidden { display: none !important; }
+
+.modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: #000a; display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.modal-content {
+  background: #16213e; border: 2px solid #0f3460; border-radius: 12px;
+  padding: 24px; min-width: 320px; max-width: 500px; max-height: 80vh; overflow-y: auto;
+}
+.modal-content h2 { color: #e94560; margin-bottom: 16px; }
+#leaderboard-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.lb-entry { display: flex; justify-content: space-between; padding: 8px 12px; background: #1a1a2e; border-radius: 6px; }
+.lb-entry .rank { color: #f5a623; font-weight: bold; }
+.lb-entry .design-name { flex: 1; margin-left: 12px; }
+.lb-entry .score-val { color: #e94560; font-weight: bold; }
+#close-leaderboard { padding: 8px 20px; border: 1px solid #0f3460; border-radius: 6px; background: #1a1a2e; color: #e0e0e0; cursor: pointer; }
+#close-leaderboard:hover { background: #0f3460; }
+
+@media (max-width: 700px) {
+  #sidebar { width: 180px; min-width: 160px; padding: 8px; }
+  #header h1 { font-size: 1rem; }
+}

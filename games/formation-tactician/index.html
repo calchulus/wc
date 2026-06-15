@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Formation Tactician</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-wrapper">
+    <div id="hud">
+      <span id="formation-display">4-4-2</span>
+      <span id="score-display">0 - 0</span>
+      <span id="rating-display">Rating: --</span>
+    </div>
+    <canvas id="gameCanvas"></canvas>
+    <div id="controls">
+      <div id="formation-presets">
+        <button class="preset-btn active" data-formation="4-4-2">4-4-2</button>
+        <button class="preset-btn" data-formation="4-3-3">4-3-3</button>
+        <button class="preset-btn" data-formation="3-5-2">3-5-2</button>
+        <button class="preset-btn" data-formation="4-2-3-1">4-2-3-1</button>
+      </div>
+      <div id="action-buttons">
+        <button id="reset-btn">RESET</button>
+        <button id="start-btn">KICK OFF</button>
+      </div>
+    </div>
+    <div id="match-log"></div>
+    <div id="message-overlay">
+      <h1>FORMATION TACTICIAN</h1>
+      <p>Drag players to set your formation</p>
+      <p>Choose a preset or go custom</p>
+      <p>Simulate against AI opponents</p>
+      <button id="overlay-start-btn">START</button>
+    </div>
+    <div id="result-overlay" class="hidden">
+      <h2 id="result-title"></h2>
+      <div id="result-stats"></div>
+      <div id="tactical-analysis"></div>
+      <button id="play-again-btn">PLAY AGAIN</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

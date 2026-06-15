@@ -1,0 +1,174 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #1a1a2e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Arial', sans-serif;
+  overflow: hidden;
+}
+
+#game-container {
+  position: relative;
+  width: 800px;
+  height: 600px;
+}
+
+canvas {
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+#ui-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+#score-display {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: #ffd700;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+#combo-display {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ff6b6b;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+#bpm-display {
+  position: absolute;
+  top: 40px;
+  left: 10px;
+  color: #4ecdc4;
+  font-size: 16px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+#wave-pattern {
+  position: absolute;
+  top: 40px;
+  right: 10px;
+  color: #45b7d1;
+  font-size: 16px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+#start-screen, #game-over-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  pointer-events: auto;
+}
+
+#game-over-screen {
+  display: none;
+}
+
+h1 {
+  font-size: 48px;
+  color: #ffd700;
+  margin-bottom: 20px;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+}
+
+h2 {
+  font-size: 32px;
+  color: #ff6b6b;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #4ecdc4;
+  margin-bottom: 30px;
+}
+
+.btn {
+  padding: 15px 40px;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ffd700, #ff8c00);
+  color: #1a1a2e;
+  box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+  color: white;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.4);
+}
+
+.controls-info {
+  margin-top: 30px;
+  font-size: 14px;
+  color: #aaa;
+  text-align: center;
+  line-height: 1.8;
+}
+
+.final-score {
+  font-size: 64px;
+  color: #ffd700;
+  font-weight: bold;
+  margin: 20px 0;
+  text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+}
+
+.high-score {
+  font-size: 20px;
+  color: #ff6b6b;
+  margin-bottom: 20px;
+}
+
+.cheer-text {
+  position: absolute;
+  font-size: 24px;
+  font-weight: bold;
+  pointer-events: none;
+  animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-50px); }
+}

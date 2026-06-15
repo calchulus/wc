@@ -1,0 +1,29 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #1a1a2e; color: #eee; font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+#game-container { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px; }
+canvas { border: 2px solid #444; border-radius: 8px; background: #2d5a27; }
+#controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; max-width: 800px; }
+h3 { font-size: 14px; margin-bottom: 6px; color: #ffd700; }
+#poses-panel, #effects-panel, #timeline-panel, #message-panel, #actions-panel, #score-panel { background: #16213e; padding: 10px; border-radius: 8px; }
+#poses-grid, #effects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.pose-btn, .effect-btn { padding: 8px; border: 2px solid #333; border-radius: 6px; background: #0f3460; color: #eee; cursor: pointer; font-size: 12px; text-align: center; transition: all 0.15s; }
+.pose-btn:hover, .effect-btn:hover { border-color: #ffd700; background: #1a4a7a; }
+.pose-btn.selected { border-color: #00ff88; background: #1a5a3a; }
+.effect-btn.selected { border-color: #ff6b9d; background: #5a1a3a; }
+#timeline { display: flex; gap: 4px; min-height: 50px; flex-wrap: wrap; align-items: center; }
+.timeline-item { width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 10px; border: 2px solid #555; background: #222; }
+.timeline-item.pose { border-color: #00ff88; background: #1a3a2a; }
+.timeline-item.effect { border-color: #ff6b9d; background: #3a1a2a; }
+.btn { padding: 8px 16px; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.15s; }
+.btn.primary { background: #e94560; color: #fff; }
+.btn.primary:hover { background: #ff6b80; }
+.btn.primary:disabled { background: #555; cursor: not-allowed; }
+.btn.secondary { background: #333; color: #ccc; }
+.btn.secondary:hover { background: #444; }
+#message-input { width: 100%; padding: 6px; border-radius: 4px; border: 1px solid #555; background: #0a0a1a; color: #fff; font-size: 14px; }
+#score-panel { display: flex; gap: 20px; font-size: 16px; }
+#score-panel span { color: #ffd700; }
+@media (max-width: 600px) {
+  #poses-grid, #effects-grid { grid-template-columns: repeat(2, 1fr); }
+  .pose-btn, .effect-btn { font-size: 11px; padding: 6px; }
+}

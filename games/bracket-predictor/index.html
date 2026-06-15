@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>World Cup Bracket Predictor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>World Cup Bracket Predictor</h1>
+      <div id="controls">
+        <button id="start-btn" onclick="startGame()">New Tournament</button>
+        <button id="save-btn" onclick="saveBracket()" style="display:none">Save</button>
+        <button id="load-btn" onclick="loadBracket()">Load</button>
+        <button id="sim-btn" onclick="simulateActual()" style="display:none">Simulate Actual</button>
+        <button id="score-btn" onclick="scoreBracket()" style="display:none">Score</button>
+        <button id="share-btn" onclick="shareBracket()" style="display:none">Share</button>
+      </div>
+    </header>
+    <div id="status-bar"></div>
+    <div id="bracket-container">
+      <div id="bracket"></div>
+    </div>
+    <div id="tooltip" class="tooltip" style="display:none"></div>
+    <canvas id="share-canvas" style="display:none"></canvas>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

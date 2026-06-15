@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kit Designer - World Cup Minigames</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header>
+            <h1>Kit Designer</h1>
+            <p>Design your custom soccer jersey!</p>
+        </header>
+
+        <main>
+            <div class="designer-container">
+                <div class="canvas-wrapper">
+                    <canvas id="jersey-canvas" width="400" height="500"></canvas>
+                    <div class="canvas-controls">
+                        <button id="export-btn" title="Export as Image">
+                            <span>Export</span>
+                        </button>
+                        <button id="clear-btn" title="Clear Gallery">
+                            <span>Clear Gallery</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="control-section">
+                        <h3>National Team</h3>
+                        <select id="team-select">
+                            <option value="custom">Custom</option>
+                            <option value="brazil">Brazil</option>
+                            <option value="germany">Germany</option>
+                            <option value="argentina">Argentina</option>
+                            <option value="france">France</option>
+                            <option value="england">England</option>
+                            <option value="spain">Spain</option>
+                            <option value="italy">Italy</option>
+                            <option value="netherlands">Netherlands</option>
+                            <option value="japan">Japan</option>
+                            <option value="usa">USA</option>
+                        </select>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>Colors</h3>
+                        <div class="color-row">
+                            <label>Main Color</label>
+                            <input type="color" id="main-color" value="#FF0000">
+                        </div>
+                        <div class="color-row">
+                            <label>Accent Color</label>
+                            <input type="color" id="accent-color" value="#FFFFFF">
+                        </div>
+                        <div class="color-row">
+                            <label>Sleeve Color</label>
+                            <input type="color" id="sleeve-color" value="#FF0000">
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>Pattern</h3>
+                        <div class="pattern-selector">
+                            <button class="pattern-btn active" data-pattern="solid">Solid</button>
+                            <button class="pattern-btn" data-pattern="stripes">Stripes</button>
+                            <button class="pattern-btn" data-pattern="hoops">Hoops</button>
+                            <button class="pattern-btn" data-pattern="diamond">Diamond</button>
+                            <button class="pattern-btn" data-pattern="gradient">Gradient</button>
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>Player Info</h3>
+                        <div class="input-row">
+                            <label>Number</label>
+                            <input type="number" id="player-number" min="0" max="99" value="10">
+                        </div>
+                        <div class="input-row">
+                            <label>Name</label>
+                            <input type="text" id="player-name" maxlength="15" placeholder="MESSI">
+                        </div>
+                    </div>
+
+                    <div class="control-section">
+                        <h3>Logo Position</h3>
+                        <div class="logo-selector">
+                            <button class="logo-btn active" data-logo="chest">Chest</button>
+                            <button class="logo-btn" data-logo="back">Back</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="gallery-section">
+                <h2>Saved Designs</h2>
+                <div id="gallery" class="gallery-grid">
+                    <p class="gallery-empty">No saved designs yet. Export your design to see it here!</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

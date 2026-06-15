@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Crowd Wave</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="ui-overlay">
+      <div id="score-display">Score: 0</div>
+      <div id="combo-display"></div>
+      <div id="bpm-display">BPM: 100</div>
+      <div id="wave-pattern">Pattern: SIMPLE</div>
+    </div>
+
+    <div id="start-screen">
+      <h1>CROWD WAVE</h1>
+      <p class="subtitle">Tap to the rhythm and start the wave!</p>
+      <button id="start-btn" class="btn btn-primary">START GAME</button>
+      <div class="controls-info">
+        <p>Click/Tap the canvas or press SPACE to tap</p>
+        <p>Match the beat for PERFECT timing</p>
+        <p>Build combos for higher scores</p>
+        <p>Press F for fullscreen</p>
+      </div>
+    </div>
+
+    <div id="game-over-screen">
+      <h2>GAME OVER</h2>
+      <div class="final-score" id="final-score">0</div>
+      <div class="high-score" id="high-score-text">High Score: 0</div>
+      <button id="restart-btn" class="btn btn-primary">PLAY AGAIN</button>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>

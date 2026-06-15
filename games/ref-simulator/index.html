@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Referee Simulator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="game-container">
+  <div id="header">
+    <div id="round-info">Round <span id="round">1</span>/20</div>
+    <div id="score-display">Score: <span id="score">0</span></div>
+    <div id="timer-bar-container">
+      <div id="timer-bar"></div>
+    </div>
+    <div id="timer-text">2.0s</div>
+  </div>
+
+  <div id="incident-area">
+    <canvas id="incident-canvas" width="600" height="400"></canvas>
+    <div id="incident-label"></div>
+  </div>
+
+  <div id="whistle-prompt">
+    <button id="whistle-btn"> blows whistle!</button>
+  </div>
+
+  <div id="decision-panel" class="hidden">
+    <div id="decision-label">Make your call:</div>
+    <div id="decision-buttons">
+      <button class="dec-btn" data-decision="FOUL">FOUL</button>
+      <button class="dec-btn" data-decision="NO FOUL">NO FOUL</button>
+      <button class="dec-btn card-btn yellow" data-decision="YELLOW CARD">YELLOW CARD</button>
+      <button class="dec-btn card-btn red" data-decision="RED CARD">RED CARD</button>
+      <button class="dec-btn" data-decision="OFFSIDE">OFFSIDE</button>
+    </div>
+  </div>
+
+  <div id="replay-overlay" class="hidden">
+    <div id="replay-label">SLOW-MO REPLAY</div>
+    <canvas id="replay-canvas" width="600" height="400"></canvas>
+    <div id="replay-result"></div>
+    <button id="next-btn" class="hidden">Next Round</button>
+  </div>
+
+  <div id="start-screen">
+    <div id="start-content">
+      <div id="ref-badge">&#x1F451;</div>
+      <h1>REFEREE SIMULATOR</h1>
+      <p>Watch soccer incidents and make the right call!</p>
+      <p class="sub">Blow the whistle, then decide the penalty.</p>
+      <button id="start-btn">START GAME</button>
+    </div>
+  </div>
+
+  <div id="end-screen" class="hidden">
+    <div id="end-content">
+      <h1 id="end-title">GAME OVER</h1>
+      <div id="rating"></div>
+      <div id="final-score"></div>
+      <div id="stats"></div>
+      <button id="restart-btn">PLAY AGAIN</button>
+    </div>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>

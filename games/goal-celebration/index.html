@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goal Celebration Creator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="game-container">
+    <canvas id="gameCanvas"></canvas>
+    <div id="controls">
+      <div id="poses-panel">
+        <h3>Celebration Poses</h3>
+        <div id="poses-grid"></div>
+      </div>
+      <div id="effects-panel">
+        <h3>Effects</h3>
+        <div id="effects-grid"></div>
+      </div>
+      <div id="timeline-panel">
+        <h3>Sequence</h3>
+        <div id="timeline"></div>
+        <button id="clear-timeline" class="btn secondary">Clear</button>
+      </div>
+      <div id="message-panel">
+        <h3>Message</h3>
+        <input type="text" id="message-input" placeholder="Type message or emoji..." maxlength="30">
+      </div>
+      <div id="actions-panel">
+        <button id="record-btn" class="btn primary">Record</button>
+        <button id="play-btn" class="btn primary" disabled>Play</button>
+        <button id="share-btn" class="btn primary" disabled>Share Screenshot</button>
+      </div>
+      <div id="score-panel">
+        <span>Score: <span id="score-value">0</span></span>
+        <span>Creativity: <span id="creativity-value">0</span></span>
+      </div>
+    </div>
+  </div>
+  <script src="game.js"></script>
+</body>
+</html>
