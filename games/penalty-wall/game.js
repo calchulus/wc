@@ -170,6 +170,12 @@
             'Balls survived: ' + (20 - state.totalBallsSpawned + (b.active ? 0 : 1)),
             'Score: ' + state.score,
           ], 'PLAY AGAIN');
+          if (typeof Leaderboard !== 'undefined') {
+            Leaderboard.promptName(function (name) {
+              Leaderboard.addScore('penalty-wall', state.score, name);
+              Leaderboard.renderLeaderboard('penalty-wall', 'leaderboard-container', state.score);
+            });
+          }
           return;
         }
       }
@@ -189,6 +195,12 @@
         'Deflections: ' + Math.floor(state.score / 5),
         'Final Score: ' + finalScore,
       ], 'PLAY AGAIN');
+      if (typeof Leaderboard !== 'undefined') {
+        Leaderboard.promptName(function (name) {
+          Leaderboard.addScore('penalty-wall', finalScore, name);
+          Leaderboard.renderLeaderboard('penalty-wall', 'leaderboard-container', finalScore);
+        });
+      }
     }
   }
 

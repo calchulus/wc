@@ -144,6 +144,12 @@
           'Customers Lost: ' + state.customersLost,
           'Best Combo: ' + state.combo
         ], 'PLAY AGAIN');
+        if (typeof Leaderboard !== 'undefined') {
+          Leaderboard.promptName(function (name) {
+            Leaderboard.addScore('foodtruck', state.score, name);
+            Leaderboard.renderLeaderboard('foodtruck', 'leaderboard-container', state.score);
+          });
+        }
       }
 
       updateUI();
@@ -193,6 +199,12 @@
           'Customers Lost: ' + state.customersLost,
           'Best Combo: ' + state.combo
         ], 'PLAY AGAIN');
+        if (typeof Leaderboard !== 'undefined') {
+          Leaderboard.promptName(function (name) {
+            Leaderboard.addScore('foodtruck', state.score, name);
+            Leaderboard.renderLeaderboard('foodtruck', 'leaderboard-container', state.score);
+          });
+        }
       }
 
       updateUI();

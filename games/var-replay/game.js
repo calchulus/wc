@@ -527,6 +527,12 @@
     else verdict = 'Time for VAR training camp! Keep studying those replays.';
     verdictText.textContent = verdict;
     showScreen('gameover');
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('var-replay', state.score, name);
+        Leaderboard.renderLeaderboard('var-replay', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function update(dt) {

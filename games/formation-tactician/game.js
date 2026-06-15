@@ -471,6 +471,12 @@
 
     document.getElementById('tactical-analysis').innerHTML = analysisHTML;
     document.getElementById('result-overlay').classList.remove('hidden');
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('formation-tactician', rating, name);
+        Leaderboard.renderLeaderboard('formation-tactician', 'leaderboard-container', rating);
+      });
+    }
   }
 
   function startMatch() {

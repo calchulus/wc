@@ -436,6 +436,12 @@ function updatePlayback(dt) {
       state.playing = false;
       document.getElementById('play-btn').disabled = false;
       state.stickFigure.pose = null;
+      if (typeof Leaderboard !== 'undefined' && state.score > 0) {
+        Leaderboard.promptName(function (name) {
+          Leaderboard.addScore('goal-celebration', state.score, name);
+          Leaderboard.renderLeaderboard('goal-celebration', 'leaderboard-container', state.score);
+        });
+      }
     }
   }
 

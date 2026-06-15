@@ -408,6 +408,13 @@
     saved.push(design);
     localStorage.setItem('stadium_designs', JSON.stringify(saved));
     alert('Design saved!');
+    if (typeof Leaderboard !== 'undefined') {
+      var scores = computeScores();
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('stadium-builder', scores.total, name);
+        Leaderboard.renderLeaderboard('stadium-builder', 'leaderboard-container', scores.total);
+      });
+    }
   });
 
   document.getElementById('load-btn').addEventListener('click', () => {

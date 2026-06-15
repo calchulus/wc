@@ -367,6 +367,12 @@
       </div>
     `;
     document.body.appendChild(overlay);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('bracket-predictor', state.totalScore, name);
+        Leaderboard.renderLeaderboard('bracket-predictor', 'leaderboard-container', state.totalScore);
+      });
+    }
   }
 
   window.saveBracket = function() {

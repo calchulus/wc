@@ -108,6 +108,12 @@
     if (state.round >= 5) {
       state.mode = 'gameover';
       showOverlay('GAME OVER', 'Final Score: ' + state.score, ['Rounds: 5/5'], 'PLAY AGAIN');
+      if (typeof Leaderboard !== 'undefined') {
+        Leaderboard.promptName(function (name) {
+          Leaderboard.addScore('soccer-physics', state.score, name);
+          Leaderboard.renderLeaderboard('soccer-physics', 'leaderboard-container', state.score);
+        });
+      }
     } else {
       state.round++;
       resetRound();

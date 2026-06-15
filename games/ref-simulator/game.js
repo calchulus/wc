@@ -336,6 +336,12 @@
       'Accuracy: ' + pct + '%<br>' +
       'Avg Whistle: ' + (state.totalWhistleTime / TOTAL_ROUNDS / 1000).toFixed(2) + 's<br>' +
       rating.desc;
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('ref-simulator', state.score, name);
+        Leaderboard.renderLeaderboard('ref-simulator', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function updateScore() {

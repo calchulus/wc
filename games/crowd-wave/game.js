@@ -411,6 +411,12 @@ function endGame() {
   document.getElementById('game-over-screen').style.display = 'flex';
   document.getElementById('final-score').textContent = state.score;
   document.getElementById('high-score-text').textContent = `High Score: ${state.highScore}`;
+  if (typeof Leaderboard !== 'undefined') {
+    Leaderboard.promptName(function (name) {
+      Leaderboard.addScore('crowd-wave', state.score, name);
+      Leaderboard.renderLeaderboard('crowd-wave', 'leaderboard-container', state.score);
+    });
+  }
 }
 
 function renderGameToText() {

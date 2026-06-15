@@ -275,6 +275,12 @@
       '<p>Average Rating: ' + Math.round(state.score / 5) + '/100</p>' +
       '<button id="replay-btn">DRAW AGAIN</button>';
     document.getElementById('replay-btn').addEventListener('click', startGame);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('draw-play', state.score, name);
+        Leaderboard.renderLeaderboard('draw-play', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   startBtn.addEventListener('click', startGame);

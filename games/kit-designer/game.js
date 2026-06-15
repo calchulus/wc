@@ -306,6 +306,12 @@ function saveDesign() {
     state.savedDesigns.push(design);
     updateGallery();
     downloadImage(imageData);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('kit-designer', state.savedDesigns.length, name);
+        Leaderboard.renderLeaderboard('kit-designer', 'leaderboard-container', state.savedDesigns.length);
+      });
+    }
 }
 
 function downloadImage(dataUrl) {

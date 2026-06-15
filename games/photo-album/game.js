@@ -254,6 +254,12 @@
               state.mode = 'gameover';
               var timeMsg = state.timer < 30 ? 'Speed Bonus: +100' : '';
               showOverlay('YOU WIN!', 'Score: ' + finalScore, ['Moves: ' + state.moveCount, 'Time: ' + state.timer.toFixed(1) + 's', timeMsg], 'PLAY AGAIN');
+              if (typeof Leaderboard !== 'undefined') {
+                Leaderboard.promptName(function (name) {
+                  Leaderboard.addScore('photo-album', finalScore, name);
+                  Leaderboard.renderLeaderboard('photo-album', 'leaderboard-container', finalScore);
+                });
+              }
             }
           } else {
             setTimeout(function () {

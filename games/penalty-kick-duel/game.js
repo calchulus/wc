@@ -382,6 +382,12 @@
     }
   }
 
+  function getPowerMultiplier(p) {
+    if (p < OPTIMAL_MIN) return 0.5 + (p / OPTIMAL_MIN) * 0.4;
+    if (p <= OPTIMAL_MAX) return 0.9 + ((p - OPTIMAL_MIN) / (OPTIMAL_MAX - OPTIMAL_MIN)) * 0.2;
+    return 1.0 + (p - OPTIMAL_MAX) * 0.5;
+  }
+
   function shoot() {
     var targetX = state.crosshairX;
     var targetY = state.crosshairY;
@@ -390,9 +396,16 @@
     var dy = targetY - BALL_START_Y;
     var dist = Math.sqrt(dx * dx + dy * dy);
     var speed = 8 + Math.random() * 2;
+    var mult = getPowerMultiplier(powerLevel);
 
-    state.ball.vx = (dx / dist) * speed;
-    state.ball.vy = (dy / dist) * speed;
+    state.ball.vx = (dx / dist) * speed * mult;
+    state.ball.vy = (dy / dist) * speed * mult;
+
+    if (powerLevel > OPTIMAL_MAX) {
+      var overFactor = (powerLevel - OPTIMAL_MAX) / (1 - OPTIMAL_MAX);
+      state.ball.vy -= overFactor * 3;
+    }
+
     state.ball.active = true;
 
     state.shootPhase = 'shooting';
@@ -415,7 +428,10 @@
   }
 
   var powerCharging = false;
-  var powerDir = 1;
+  var powerLevel = 0;
+  var CHARGE_SPEED = 1 / (1.5 * 60);
+  var OPTIMAL_MIN = 0.6;
+  var OPTIMAL_MAX = 0.8;
 
   function update(timestamp) {
     var dt = state.lastTime ? (timestamp - state.lastTime) / 1000 : 1 / 60;
@@ -424,6 +440,18 @@
 
     state.crosshairX += (state.crosshairTargetX - state.crosshairX) * 0.15;
     state.crosshairY += (state.crosshairTargetY - state.crosshairY) * 0.15;
+
+    if (powerCharging && state.shootPhase === 'aim') {
+      powerLevel = Math.min(1, powerLevel + CHARGE_SPEED);
+      powerBar.style.width = (powerLevel * 100) + '%';
+      if (powerLevel < OPTIMAL_MIN) {
+        powerBar.style.background = '#ff9800';
+      } else if (powerLevel <= OPTIMAL_MAX) {
+        powerBar.style.background = '#4caf50';
+      } else {
+        powerBar.style.background = '#f44336';
+      }
+    }
 
     if (state.mode === 'playing' || state.mode === 'result') {
       updateKeeper(dt);
@@ -462,14 +490,24 @@
     state.crosshairTargetY = (e.clientY - rect.top) * (H / rect.height);
   });
 
-  canvas.addEventListener('click', function (e) {
+  canvas.addEventListener('mousedown', function (e) {
     if (state.mode === 'start' || state.mode === 'gameover') return;
 
     if (state.mode === 'playing' && state.shootPhase === 'aim') {
       var rect = canvas.getBoundingClientRect();
       state.crosshairTargetX = (e.clientX - rect.left) * (W / rect.width);
       state.crosshairTargetY = (e.clientY - rect.top) * (H / rect.height);
+      powerCharging = true;
+      powerLevel = 0;
+      powerBarContainer.style.display = 'block';
+    }
+  });
+
+  canvas.addEventListener('mouseup', function (e) {
+    if (state.mode === 'playing' && state.shootPhase === 'aim' && powerCharging) {
+      powerCharging = false;
       shoot();
+      powerBarContainer.style.display = 'none';
     }
   });
 
@@ -482,7 +520,9 @@
       var touch = e.touches[0];
       state.crosshairTargetX = (touch.clientX - rect.left) * (W / rect.width);
       state.crosshairTargetY = (touch.clientY - rect.top) * (H / rect.height);
-      shoot();
+      powerCharging = true;
+      powerLevel = 0;
+      powerBarContainer.style.display = 'block';
     }
   }, { passive: false });
 
@@ -492,6 +532,15 @@
     var touch = e.touches[0];
     state.crosshairTargetX = (touch.clientX - rect.left) * (W / rect.width);
     state.crosshairTargetY = (touch.clientY - rect.top) * (H / rect.height);
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', function (e) {
+    e.preventDefault();
+    if (state.mode === 'playing' && state.shootPhase === 'aim' && powerCharging) {
+      powerCharging = false;
+      shoot();
+      powerBarContainer.style.display = 'none';
+    }
   }, { passive: false });
 
   startBtn.addEventListener('click', startGame);

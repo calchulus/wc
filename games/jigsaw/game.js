@@ -130,6 +130,12 @@
       <button class="btn" id="start-btn">${won ? 'PLAY AGAIN' : 'TRY AGAIN'}</button>
     `;
     document.getElementById('start-btn').addEventListener('click', startGame);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('jigsaw', score, name);
+        Leaderboard.renderLeaderboard('jigsaw', 'leaderboard-container', score);
+      });
+    }
   }
 
   canvas.addEventListener('click', (e) => {

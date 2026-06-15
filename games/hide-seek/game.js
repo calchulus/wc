@@ -143,6 +143,12 @@
       if (state.level >= 5) {
         state.mode = 'gameover';
         showOverlay('YOU WIN!', 'Final Score: ' + state.score, ['Levels: 5/5'], 'PLAY AGAIN');
+        if (typeof Leaderboard !== 'undefined') {
+          Leaderboard.promptName(function (name) {
+            Leaderboard.addScore('hide-seek', state.score, name);
+            Leaderboard.renderLeaderboard('hide-seek', 'leaderboard-container', state.score);
+          });
+        }
       } else {
         state.level++;
         loadLevel();

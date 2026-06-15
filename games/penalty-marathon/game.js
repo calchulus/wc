@@ -630,6 +630,12 @@
     }
 
     state.mode = 'gameover';
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('penalty-marathon', state.score, name);
+        Leaderboard.renderLeaderboard('penalty-marathon', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function update(dt) {

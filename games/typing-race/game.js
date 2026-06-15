@@ -149,6 +149,12 @@
       '<p>Best Streak: ' + state.streak + '</p>' +
       '<button id="replay-btn">RACE AGAIN</button>';
     document.getElementById('replay-btn').addEventListener('click', startGame);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('typing-race', state.score, name);
+        Leaderboard.renderLeaderboard('typing-race', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function handleKey(e) {

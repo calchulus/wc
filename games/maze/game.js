@@ -227,6 +227,12 @@
         startGame();
       }
     });
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (name) {
+        Leaderboard.addScore('maze', state.score, name);
+        Leaderboard.renderLeaderboard('maze', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function movePlayer(dx, dy) {

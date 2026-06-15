@@ -56,6 +56,12 @@
       <button class="btn" id="start-btn">${won ? 'PLAY AGAIN' : 'TRY AGAIN'}</button>
     `;
     document.getElementById('start-btn').addEventListener('click', startGame);
+    if (typeof Leaderboard !== 'undefined') {
+      Leaderboard.promptName(function (lbName) {
+        Leaderboard.addScore('sticker-collector', state.score, lbName);
+        Leaderboard.renderLeaderboard('sticker-collector', 'leaderboard-container', state.score);
+      });
+    }
   }
 
   function drawBasket() {
