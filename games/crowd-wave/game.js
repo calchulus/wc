@@ -118,7 +118,10 @@ function moveWave(dt) {
   state.wavePosition += speed * dt * state.waveDirection;
 
   const totalFigures = ROWS * FIGURES_PER_ROW;
-  if (state.wavePosition >= totalFigures + 5) {
+  if (state.waveDirection >= 0 && state.wavePosition >= totalFigures + 5) {
+    state.waveActive = false;
+    state.waveBreakTimer = 500;
+  } else if (state.waveDirection < 0 && state.wavePosition <= -6) {
     state.waveActive = false;
     state.waveBreakTimer = 500;
   }
@@ -358,6 +361,10 @@ function update(dt) {
   if (now - state.lastBeatTime >= state.beatInterval) {
     handleBeat();
     state.lastBeatTime = now;
+    if (state.totalBeats >= 60) {
+      endGame();
+      return;
+    }
   }
 
   moveWave(dt);

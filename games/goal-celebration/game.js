@@ -71,7 +71,7 @@ function initUI() {
 }
 
 function selectPose(name) {
-  if (state.playing) return;
+  if (state.playing || state.mode === 'record') return;
   state.selectedPose = name;
   state.selectedEffect = null;
   document.querySelectorAll('.pose-btn').forEach(b => b.classList.remove('selected'));
@@ -83,7 +83,7 @@ function selectPose(name) {
 }
 
 function selectEffect(name) {
-  if (state.playing) return;
+  if (state.playing || state.mode === 'record') return;
   state.selectedEffect = name;
   document.querySelectorAll('.effect-btn').forEach(b => b.classList.remove('selected'));
   const btns = document.querySelectorAll('.effect-btn');
@@ -115,6 +115,7 @@ function renderTimeline() {
 }
 
 function clearTimeline() {
+  if (state.playing) return;
   state.timeline = [];
   renderTimeline();
   document.getElementById('play-btn').disabled = true;
@@ -137,7 +138,7 @@ function startRecording() {
 }
 
 function startPlayback() {
-  if (state.playing || state.timeline.length === 0) return;
+  if (state.playing || state.mode === 'record' || state.timeline.length === 0) return;
   state.playing = true;
   state.playbackIndex = 0;
   state.playbackTimer = 0;

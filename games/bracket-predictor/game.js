@@ -138,11 +138,9 @@
         for (let r = round + 1; r < 4; r++) {
           for (let m = 0; m < state.picks[r].length; m++) {
             state.picks[r][m] = null;
-            state.bracket[r][m].home = null;
-            state.bracket[r][m].away = null;
           }
         }
-        advanceActualResults();
+        restoreBracketFromActual();
       }
     } else {
       state.picks[round][matchIdx] = team;
@@ -151,6 +149,18 @@
 
     updateButtons();
     render();
+  }
+
+  function restoreBracketFromActual() {
+    for (let r = 1; r < 4; r++) {
+      for (let m = 0; m < state.bracket[r].length; m++) {
+        const prevM1 = m * 2, prevM2 = m * 2 + 1;
+        const w1 = state.actual[r - 1][prevM1];
+        const w2 = state.actual[r - 1][prevM2];
+        state.bracket[r][m].home = w1 || null;
+        state.bracket[r][m].away = w2 || null;
+      }
+    }
   }
 
   function calculateScore() {
