@@ -408,7 +408,7 @@
     state.crosshairX += (state.crosshairTargetX - state.crosshairX) * 0.15;
     state.crosshairY += (state.crosshairTargetY - state.crosshairY) * 0.15;
 
-    if (state.mode === 'playing') {
+    if (state.mode === 'playing' || state.mode === 'result') {
       updateKeeper(dt);
       updateBall(dt);
       updateParticles();
