@@ -413,8 +413,16 @@
     var targetX = state.crosshairX;
     var targetY = state.crosshairY;
 
+    var powerHeightBoost = 0;
+    if (powerLevel < OPTIMAL_MIN) {
+      powerHeightBoost = (1 - powerLevel / OPTIMAL_MIN) * 80;
+    } else if (powerLevel > OPTIMAL_MAX) {
+      powerHeightBoost = -((powerLevel - OPTIMAL_MAX) / (1 - OPTIMAL_MAX)) * 60;
+    }
+    var adjustedTargetY = targetY + powerHeightBoost;
+
     var dx = targetX - BALL_START_X;
-    var dy = targetY - BALL_START_Y;
+    var dy = adjustedTargetY - BALL_START_Y;
     var dist = Math.sqrt(dx * dx + dy * dy);
     var speed = 8 + Math.random() * 2;
     var mult = getPowerMultiplier(powerLevel);
@@ -422,7 +430,7 @@
     state.ball.vx = (dx / dist) * speed * mult;
     state.ball.vy = (dy / dist) * speed * mult;
     state.ball.targetX = targetX;
-    state.ball.targetY = targetY;
+    state.ball.targetY = adjustedTargetY;
 
     if (powerLevel > OPTIMAL_MAX) {
       var overFactor = (powerLevel - OPTIMAL_MAX) / (1 - OPTIMAL_MAX);
