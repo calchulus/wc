@@ -38,8 +38,8 @@
     mouseY: H / 2,
     crosshairX: W / 2,
     crosshairY: H / 2,
-    ball: { x: BALL_START_X, y: BALL_START_Y, vx: 0, vy: 0, active: false, scored: false, saved: false },
-    keeper: { x: W / 2, y: GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT, targetX: W / 2, diving: false, diveDir: 0, speed: 2 },
+    ball: { x: BALL_START_X, y: BALL_START_Y, vx: 0, vy: 0, active: false, scored: false, saved: false, targetX: 0, targetY: 0 },
+    keeper: { x: W / 2, y: GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT, targetX: W / 2, targetY: GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT, diving: false, diveDir: 0, diveVY: 0, speed: 2 },
     shootPhase: 'aim',
     shootTimer: 0,
     resultTimer: 0,
@@ -52,7 +52,7 @@
   };
 
   function resetBall() {
-    state.ball = { x: BALL_START_X, y: BALL_START_Y, vx: 0, vy: 0, active: false, scored: false, saved: false };
+    state.ball = { x: BALL_START_X, y: BALL_START_Y, vx: 0, vy: 0, active: false, scored: false, saved: false, targetX: 0, targetY: 0 };
     state.shootPhase = 'aim';
     state.shootTimer = 0;
     state.resultTimer = 0;
@@ -61,6 +61,8 @@
     state.keeper.diveDir = 0;
     state.keeper.x = W / 2;
     state.keeper.targetX = W / 2;
+    state.keeper.y = GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT;
+    state.keeper.targetY = GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT;
     powerBarContainer.style.display = 'none';
   }
 
@@ -234,32 +236,38 @@
     var KW = KEEPER_WIDTH;
     var KH = KEEPER_HEIGHT;
 
+    var diveAngle = 0;
+    if (state.keeper.diving) {
+      var dx = state.keeper.targetX - state.keeper.x;
+      var dy = state.keeper.targetY - state.keeper.y;
+      diveAngle = Math.atan2(dy, dx) * 0.3;
+    }
+
+    ctx.save();
+    ctx.translate(kx, ky + KH / 2);
+    ctx.rotate(diveAngle);
+
     ctx.fillStyle = '#ff9800';
-    ctx.fillRect(kx - KW / 2, ky, KW, KH * 0.45);
+    ctx.fillRect(-KW / 2, -KH / 2, KW, KH * 0.5);
 
     ctx.fillStyle = '#ffcc80';
-    ctx.fillRect(kx - 8, ky - 14, 16, 16);
+    ctx.beginPath();
+    ctx.arc(0, -KH / 2 - 8, 10, 0, Math.PI * 2);
+    ctx.fill();
 
     ctx.fillStyle = '#333';
-    ctx.fillRect(kx - 10, ky - 18, 20, 6);
+    ctx.fillRect(-8, -KH / 2 - 14, 16, 6);
 
     ctx.fillStyle = '#ff9800';
-    var armSpread = state.keeper.diving ? 25 : 8;
-    var armAngle = state.keeper.diving ? (state.keeper.diveDir > 0 ? 0.5 : -0.5) : 0;
-    ctx.save();
-    ctx.translate(kx - KW / 2, ky + 10);
-    ctx.rotate(armAngle);
-    ctx.fillRect(-armSpread, -4, armSpread, 8);
-    ctx.restore();
-    ctx.save();
-    ctx.translate(kx + KW / 2, ky + 10);
-    ctx.rotate(-armAngle);
-    ctx.fillRect(0, -4, armSpread, 8);
-    ctx.restore();
+    var armSpread = state.keeper.diving ? 30 : 10;
+    ctx.fillRect(-KW / 2 - armSpread, -5, armSpread, 8);
+    ctx.fillRect(KW / 2, -5, armSpread, 8);
 
     ctx.fillStyle = '#222';
-    ctx.fillRect(kx - 10, ky + KH * 0.45, 9, KH * 0.55);
-    ctx.fillRect(kx + 1, ky + KH * 0.45, 9, KH * 0.55);
+    ctx.fillRect(-10, KH * 0.1, 9, KH * 0.4);
+    ctx.fillRect(1, KH * 0.1, 9, KH * 0.4);
+
+    ctx.restore();
   }
 
   function drawBall() {
@@ -338,8 +346,12 @@
     if (!state.keeper.diving) return;
     var speed = state.keeper.speed * state.difficulty;
     var dx = state.keeper.targetX - state.keeper.x;
+    var dy = state.keeper.targetY - state.keeper.y;
     if (Math.abs(dx) > 1) {
       state.keeper.x += Math.sign(dx) * speed * dt * 60;
+    }
+    if (Math.abs(dy) > 1) {
+      state.keeper.y += Math.sign(dy) * speed * 0.8 * dt * 60;
     }
   }
 
@@ -350,24 +362,33 @@
     b.x += b.vx * dt * 60;
     b.y += b.vy * dt * 60;
 
-    var goalCenterX = GOAL_X + GOAL_WIDTH / 2;
+    var goalTop = GOAL_Y;
     var goalBottom = GOAL_Y + GOAL_HEIGHT;
-    var inGoalX = b.x > GOAL_X + 10 && b.x < GOAL_X + GOAL_WIDTH - 10;
-    var reachedGoalLine = b.y <= goalBottom + 5;
+    var inGoalX = b.x > GOAL_X + 5 && b.x < GOAL_X + GOAL_WIDTH - 5;
+    var inGoalY = b.y >= goalTop - 5 && b.y <= goalBottom + 5;
+    var reachedGoalArea = inGoalX && inGoalY;
 
-    if (reachedGoalLine && inGoalX) {
+    var dx = b.x - b.targetX;
+    var dy = b.y - b.targetY;
+    var distToTarget = Math.sqrt(dx * dx + dy * dy);
+
+    if (distToTarget < 15 || (reachedGoalArea && b.vy < 0 && b.y <= goalTop + 20)) {
       var kx = state.keeper.x;
-      var keeperLeft = kx - KEEPER_WIDTH / 2 - 10;
-      var keeperRight = kx + KEEPER_WIDTH / 2 + 10;
-      var keeperTop = state.keeper.y - 10;
-      var keeperBottom = state.keeper.y + KEEPER_HEIGHT + 10;
+      var ky = state.keeper.y;
+      var keeperHalfW = KEEPER_WIDTH / 2 + 12;
+      var keeperHalfH = KEEPER_HEIGHT / 2 + 12;
+      var keeperCenterX = kx;
+      var keeperCenterY = ky + KEEPER_HEIGHT / 2;
 
-      if (b.x > keeperLeft && b.x < keeperRight && b.y > keeperTop && b.y < keeperBottom && state.keeper.diving) {
+      var distToKeeperX = Math.abs(b.x - keeperCenterX);
+      var distToKeeperY = Math.abs(b.y - keeperCenterY);
+
+      if (distToKeeperX < keeperHalfW && distToKeeperY < keeperHalfH && state.keeper.diving) {
         b.active = false;
         b.saved = true;
         addParticles(b.x, b.y, '#ff9800', 15);
         endRound(false);
-      } else {
+      } else if (reachedGoalArea || distToTarget < 15) {
         b.active = false;
         b.scored = true;
         addParticles(b.x, b.y, '#4caf50', 25);
@@ -375,7 +396,7 @@
       }
     }
 
-    if (b.y < -20 || b.x < -20 || b.x > W + 20) {
+    if (b.y < -30 || b.x < -30 || b.x > W + 30 || b.y > H + 30) {
       b.active = false;
       addParticles(b.x, b.y, '#f44336', 10);
       endRound(false);
@@ -400,6 +421,8 @@
 
     state.ball.vx = (dx / dist) * speed * mult;
     state.ball.vy = (dy / dist) * speed * mult;
+    state.ball.targetX = targetX;
+    state.ball.targetY = targetY;
 
     if (powerLevel > OPTIMAL_MAX) {
       var overFactor = (powerLevel - OPTIMAL_MAX) / (1 - OPTIMAL_MAX);
@@ -411,17 +434,23 @@
     state.shootPhase = 'shooting';
     state.shootTimer = 0;
 
-    var keeperBias = (targetX - W / 2) / (GOAL_WIDTH / 2);
+    var keeperBiasX = (targetX - W / 2) / (GOAL_WIDTH / 2);
+    var keeperBiasY = (targetY - (GOAL_Y + GOAL_HEIGHT / 2)) / (GOAL_HEIGHT / 2);
+
     var diveChoice = Math.random();
-    if (diveChoice < 0.35) {
-      state.keeper.targetX = W / 2 + keeperBias * 80 + (Math.random() - 0.5) * 60;
-    } else if (diveChoice < 0.65) {
-      state.keeper.targetX = W / 2 + (Math.random() > 0.5 ? 1 : -1) * (60 + Math.random() * 40);
+    if (diveChoice < 0.4) {
+      state.keeper.targetX = W / 2 + keeperBiasX * 80 + (Math.random() - 0.5) * 50;
+      state.keeper.targetY = (GOAL_Y + GOAL_HEIGHT / 2) + keeperBiasY * 40 + (Math.random() - 0.5) * 30;
+    } else if (diveChoice < 0.7) {
+      state.keeper.targetX = W / 2 + (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 40);
+      state.keeper.targetY = GOAL_Y + 20 + Math.random() * (GOAL_HEIGHT - 40);
     } else {
-      state.keeper.targetX = W / 2 + (Math.random() - 0.5) * 40;
+      state.keeper.targetX = W / 2 + (Math.random() - 0.5) * 60;
+      state.keeper.targetY = GOAL_Y + GOAL_HEIGHT / 2 + (Math.random() - 0.5) * 30;
     }
 
-    state.keeper.targetX = Math.max(GOAL_X + 30, Math.min(GOAL_X + GOAL_WIDTH - 30, state.keeper.targetX));
+    state.keeper.targetX = Math.max(GOAL_X + 25, Math.min(GOAL_X + GOAL_WIDTH - 25, state.keeper.targetX));
+    state.keeper.targetY = Math.max(GOAL_Y + 10, Math.min(GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT - 10, state.keeper.targetY));
     state.keeper.diving = true;
     state.keeper.diveDir = state.keeper.targetX > state.keeper.x ? 1 : -1;
     state.keeper.speed = 2 + state.difficulty * 0.8;
