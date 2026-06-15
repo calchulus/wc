@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>⚽ World Cup Mini Games Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#fbbf24">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="20 instant World Cup-themed mini-games. Pick one and play!">
+  <title>⚽ World Cup Mini Games</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
   <link rel="stylesheet" href="shared/style.css">
 </head>
 <body>
@@ -113,5 +119,10 @@
       </a>
     </div>
   </div>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/wc/sw.js').catch(function() {});
+    }
+  </script>
 </body>
 </html>

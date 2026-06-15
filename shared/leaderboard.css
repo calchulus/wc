@@ -1,0 +1,67 @@
+.leaderboard {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.leaderboard h3 {
+  font-size: 1rem;
+  color: #fbbf24;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.lb-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lb-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.lb-entry.lb-current {
+  background: rgba(251,191,36,0.15);
+  border: 1px solid rgba(251,191,36,0.3);
+}
+
+.lb-rank {
+  width: 28px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.lb-name {
+  flex: 1;
+  color: #e2e8f0;
+}
+
+.lb-score {
+  font-weight: bold;
+  color: #fbbf24;
+}
+
+.lb-your-rank {
+  text-align: center;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.lb-empty {
+  text-align: center;
+  color: #64748b;
+  font-size: 0.85rem;
+  padding: 8px 0;
+}

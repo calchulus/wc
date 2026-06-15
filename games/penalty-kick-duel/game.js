@@ -117,6 +117,12 @@
         state.goalsScored > 2 ? 'Great shooting!' : 'Better luck next time!'
       ];
       showOverlay(msg, 'Game Over', details, 'PLAY AGAIN', 'replay');
+      if (typeof Leaderboard !== 'undefined') {
+        Leaderboard.promptName(function (name) {
+          Leaderboard.addScore('penalty-kick-duel', state.goalsScored, name);
+          Leaderboard.renderLeaderboard('penalty-kick-duel', 'leaderboard-container', state.goalsScored);
+        });
+      }
     } else {
       state.round++;
       state.difficulty = 1 + (state.round - 1) * 0.4;
