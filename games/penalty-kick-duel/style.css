@@ -61,10 +61,11 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.85);
   color: #fff;
   z-index: 20;
   pointer-events: auto;
+  gap: 8px;
 }
 
 #message-overlay.hidden {
@@ -72,25 +73,60 @@ body {
 }
 
 #message-overlay h1 {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: 42px;
+  margin-bottom: 4px;
   color: #4caf50;
 }
 
 #message-overlay h2 {
-  font-size: 28px;
-  margin-bottom: 20px;
+  font-size: 24px;
   color: #ffd700;
 }
 
 #message-overlay p {
-  font-size: 18px;
-  margin-bottom: 8px;
+  font-size: 16px;
   color: #ccc;
 }
 
+.selector-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.selector-row label {
+  font-size: 14px;
+  color: #94a3b8;
+  min-width: 45px;
+  text-align: right;
+}
+
+.mode-btn, .style-btn {
+  padding: 6px 14px;
+  font-size: 13px;
+  font-family: 'Courier New', monospace;
+  font-weight: bold;
+  background: rgba(255,255,255,0.1);
+  color: #94a3b8;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.mode-btn.active, .style-btn.active {
+  background: #4caf50;
+  color: #fff;
+  border-color: #4caf50;
+}
+
+.mode-btn:hover, .style-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
 #start-btn, #replay-btn {
-  margin-top: 20px;
+  margin-top: 12px;
   padding: 12px 32px;
   font-size: 20px;
   font-family: 'Courier New', monospace;

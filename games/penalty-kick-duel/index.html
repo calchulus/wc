@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#0a1628">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>Penalty Kick Duel</title>
+  <title>Penalty Kick - World Cup Mini Games</title>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="../../shared/leaderboard.css">
 </head>
@@ -20,11 +20,20 @@
       <div id="power-bar"></div>
     </div>
     <div id="message-overlay">
-      <h1>PENALTY KICK DUEL</h1>
+      <h1>PENALTY KICK</h1>
+      <div class="selector-row">
+        <label>Mode:</label>
+        <button class="mode-btn active" data-mode="duel">Duel (Best of 5)</button>
+        <button class="mode-btn" data-mode="marathon">Marathon (Endless)</button>
+      </div>
+      <div class="selector-row">
+        <label>Style:</label>
+        <button class="style-btn active" data-style="stick">Stick Figure</button>
+        <button class="style-btn" data-style="glossy">Glossy</button>
+      </div>
       <p>Move crosshair to aim</p>
       <p>Hold mouse/touch to charge power bar</p>
       <p>Release to shoot! Green zone = optimal</p>
-      <p>Best of 5 rounds</p>
       <button id="start-btn">KICK OFF</button>
     </div>
     <div id="leaderboard-container"></div>
