@@ -40,19 +40,21 @@
     {
       type: 'foul',
       correct: 'FOUL',
-      explanation: 'The attacker was tripped in the box — clear foul, penalty kick awarded.',
+      explanation: 'The defender trips the attacker in the box — contact made before the ball — clear foul!',
       replay: 'penalty_foul',
       fielders: [{x:400,y:350,color:'#fff'},{x:350,y:320,color:'#fff'},{x:450,y:300,color:'#fff'}],
       attacker: {x:300,y:340,color:'#e84'},
+      keeper: {x:680,y:340,color:'#0af'},
       ball: {x:310,y:335}
     },
     {
       type: 'goal',
       correct: 'GOAL',
-      explanation: 'The ball crossed the line cleanly — it\'s a goal!',
+      explanation: 'The shot beats the keeper cleanly — ball crosses the line!',
       replay: 'clean_goal',
       fielders: [{x:500,y:350,color:'#fff'},{x:520,y:310,color:'#fff'},{x:480,y:290,color:'#fff'}],
       attacker: {x:350,y:340,color:'#e84'},
+      keeper: {x:680,y:340,color:'#0af'},
       ball: {x:690,y:300}
     },
     {
@@ -147,7 +149,8 @@
   function drawField() {
     ctx.fillStyle = '#1a5c2a';
     ctx.fillRect(0, 0, W, H);
-    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H);
@@ -155,26 +158,62 @@
     ctx.beginPath();
     ctx.arc(W/2, H/2, 60, 0, Math.PI*2);
     ctx.stroke();
+
     ctx.strokeRect(20, H/2-100, 120, 200);
     ctx.strokeRect(W-140, H/2-100, 120, 200);
     ctx.strokeRect(20, H/2-50, 50, 100);
     ctx.strokeRect(W-70, H/2-50, 50, 100);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillRect(W-140, H/2-100, 120, 200);
+    ctx.fillRect(20, H/2-100, 120, 200);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.lineWidth = 1;
+    for (let x = W-140; x <= W-20; x += 15) {
+      ctx.beginPath();
+      ctx.moveTo(x, H/2-100);
+      ctx.lineTo(x, H/2+100);
+      ctx.stroke();
+    }
+    for (let y = H/2-100; y <= H/2+100; y += 15) {
+      ctx.beginPath();
+      ctx.moveTo(W-140, y);
+      ctx.lineTo(W-20, y);
+      ctx.stroke();
+    }
+    for (let x = 20; x <= 140; x += 15) {
+      ctx.beginPath();
+      ctx.moveTo(x, H/2-100);
+      ctx.lineTo(x, H/2+100);
+      ctx.stroke();
+    }
+    for (let y = H/2-100; y <= H/2+100; y += 15) {
+      ctx.beginPath();
+      ctx.moveTo(20, y);
+      ctx.lineTo(140, y);
+      ctx.stroke();
+    }
+
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    ctx.font = 'bold 11px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('DEFENSE', 80, H/2 - 110);
+    ctx.fillText('GOAL →', W - 80, H/2 - 110);
+    ctx.textAlign = 'left';
   }
 
-  function drawStickFigure(x, y, color, facing, action) {
+  function drawStickFigure(x, y, color, facing, action, label) {
     ctx.strokeStyle = color;
     ctx.lineWidth = 3;
     ctx.lineCap = 'round';
-    // head
     ctx.beginPath();
     ctx.arc(x, y - 30, 8, 0, Math.PI * 2);
     ctx.stroke();
-    // body
     ctx.beginPath();
     ctx.moveTo(x, y - 22);
     ctx.lineTo(x, y + 5);
     ctx.stroke();
-    // legs
     if (action === 'kicking') {
       ctx.beginPath();
       ctx.moveTo(x, y + 5);
@@ -232,6 +271,65 @@
       ctx.lineTo(x + 12, y);
       ctx.stroke();
     }
+    if (label) {
+      ctx.fillStyle = color;
+      ctx.font = 'bold 9px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(label, x, y + 38);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function drawKeeper(x, y, color) {
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.arc(x, y - 30, 9, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y - 21);
+    ctx.lineTo(x, y + 5);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y + 5);
+    ctx.lineTo(x - 12, y + 25);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y + 5);
+    ctx.lineTo(x + 12, y + 25);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y - 15);
+    ctx.lineTo(x - 20, y - 25);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x, y - 15);
+    ctx.lineTo(x + 20, y - 25);
+    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.font = 'bold 9px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('GK', x, y + 38);
+    ctx.textAlign = 'left';
+  }
+
+  function drawContact(x, y) {
+    ctx.strokeStyle = '#ffcc00';
+    ctx.lineWidth = 2;
+    for (let i = 0; i < 6; i++) {
+      const angle = (i / 6) * Math.PI * 2;
+      const r1 = 8, r2 = 16;
+      ctx.beginPath();
+      ctx.moveTo(x + Math.cos(angle) * r1, y + Math.sin(angle) * r1);
+      ctx.lineTo(x + Math.cos(angle) * r2, y + Math.sin(angle) * r2);
+      ctx.stroke();
+    }
+    ctx.fillStyle = '#ffcc00';
+    ctx.font = 'bold 10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('CONTACT', x, y - 20);
+    ctx.textAlign = 'left';
   }
 
   function drawBall(x, y) {
@@ -305,28 +403,39 @@
     if (sc.replay === 'penalty_foul') {
       const attX = 250 + Math.min(phase, 1) * 120;
       const attY = 340;
-      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, 1, 'standing'));
-      drawStickFigure(attX, attY, sc.attacker.color, 1, phase > 0.8 ? 'kicking' : 'running');
+      if (sc.keeper) drawKeeper(sc.keeper.x, sc.keeper.y, sc.keeper.color);
+      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, 1, 'standing', 'DEF'));
+      drawStickFigure(attX, attY, sc.attacker.color, 1, phase > 0.8 ? 'kicking' : 'running', 'ATK');
       const ballX = phase > 1 ? attX + 10 + (phase - 1) * 350 : attX + 10;
       const ballY = phase > 1 && phase < 1.3 ? attY - 20 - (phase - 1) * 60 : attY - 5;
       drawBall(Math.min(ballX, 700), ballY);
       if (phase > 0.6 && phase < 1.2) {
         const tackler = sc.fielders[0];
-        drawStickFigure(tackler.x - 20, tackler.y + 5, tackler.color, -1, 'tackling');
+        drawStickFigure(tackler.x - 20, tackler.y + 5, tackler.color, -1, 'tackling', 'DEF');
+        drawContact(tackler.x - 10, tackler.y - 5);
       }
       if (phase > 1.2) {
-        drawStickFigure(attX, attY + 10, sc.attacker.color, 1, 'diving');
+        drawStickFigure(attX, attY + 10, sc.attacker.color, 1, 'diving', 'ATK');
       }
     } else if (sc.replay === 'clean_goal') {
       const attX = 300 + Math.min(phase, 1) * 80;
-      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing'));
-      drawStickFigure(attX, 340, sc.attacker.color, 1, phase > 0.5 ? 'kicking' : 'running');
+      if (sc.keeper) drawKeeper(sc.keeper.x, sc.keeper.y, sc.keeper.color);
+      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing', 'DEF'));
+      drawStickFigure(attX, 340, sc.attacker.color, 1, phase > 0.5 ? 'kicking' : 'running', 'ATK');
       const ballX = phase > 0.5 ? attX + 20 + (phase - 0.5) * 600 : attX + 20;
       const ballY = phase > 0.5 ? 340 - (phase - 0.5) * 80 : 335;
       drawBall(Math.min(ballX, 700), Math.max(ballY, 280));
-      if (phase > 1.5) {
-        ctx.fillStyle = 'rgba(0,255,136,0.15)';
-        ctx.fillRect(W - 30, H/2 - 80, 10, 160);
+      if (phase > 1.2) {
+        ctx.fillStyle = 'rgba(0,255,136,0.2)';
+        ctx.fillRect(W - 140, H/2 - 100, 120, 200);
+        ctx.strokeStyle = '#00ff88';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(W - 140, H/2 - 100, 120, 200);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GOAL!', W - 80, H/2 + 5);
+        ctx.textAlign = 'left';
       }
     } else if (sc.replay === 'offside_play') {
       const lastDefX = 400;
@@ -352,9 +461,9 @@
       }
     } else if (sc.replay === 'shirt_pull') {
       const attX = 320 + Math.min(phase, 1) * 80;
-      drawStickFigure(400, 330, sc.fielders[0].color, -1, phase > 0.4 ? 'tackling' : 'standing');
-      sc.fielders.slice(1).forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing'));
-      drawStickFigure(attX, 340, sc.attacker.color, 1, phase > 0.3 ? 'running' : 'standing');
+      drawStickFigure(400, 330, sc.fielders[0].color, -1, phase > 0.4 ? 'tackling' : 'standing', 'DEF');
+      sc.fielders.slice(1).forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing', 'DEF'));
+      drawStickFigure(attX, 340, sc.attacker.color, 1, phase > 0.3 ? 'running' : 'standing', 'ATK');
       drawBall(attX - 10, 335);
       if (phase > 0.3 && phase < 0.9) {
         ctx.strokeStyle = '#ffaa00';
@@ -365,14 +474,28 @@
         ctx.lineTo(attX + 5, 330);
         ctx.stroke();
         ctx.setLineDash([]);
+        drawContact((400 + attX + 5) / 2, 328);
       }
     } else if (sc.replay === 'header_goal') {
       const attX = 400 + Math.min(phase, 1) * 60;
       const attY = phase > 0.6 ? 290 - (phase - 0.6) * 40 : 290;
-      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing'));
-      drawStickFigure(attX, attY, sc.attacker.color, 1, phase > 0.5 ? 'jumping' : 'running');
+      if (sc.keeper) drawKeeper(sc.keeper.x, sc.keeper.y, sc.keeper.color);
+      sc.fielders.forEach(f => drawStickFigure(f.x, f.y, f.color, -1, 'standing', 'DEF'));
+      drawStickFigure(attX, attY, sc.attacker.color, 1, phase > 0.5 ? 'jumping' : 'running', 'ATK');
       const ballX = phase > 0.5 ? attX + 30 + (phase - 0.5) * 500 : attX + 30;
       drawBall(Math.min(ballX, 700), attY - 10);
+      if (phase > 1.2) {
+        ctx.fillStyle = 'rgba(0,255,136,0.2)';
+        ctx.fillRect(W - 140, H/2 - 100, 120, 200);
+        ctx.strokeStyle = '#00ff88';
+        ctx.lineWidth = 3;
+        ctx.strokeRect(W - 140, H/2 - 100, 120, 200);
+        ctx.fillStyle = '#00ff88';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('GOAL!', W - 80, H/2 + 5);
+        ctx.textAlign = 'left';
+      }
     } else if (sc.replay === 'long_ball_offside') {
       const lastDefX = 380;
       drawOffsideLine(lastDefX);
