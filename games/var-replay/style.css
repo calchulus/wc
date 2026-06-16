@@ -40,3 +40,21 @@ body { background: #0a0a1a; font-family: 'Courier New', monospace; overflow: hid
   .dec-btn { padding: 10px 12px; font-size: 0.9em; min-width: 70px; }
   #timer-text { font-size: 1.3em; }
 }
+
+.back-btn {
+  display: inline-block;
+  margin: 16px auto;
+  padding: 8px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}

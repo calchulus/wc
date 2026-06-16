@@ -27,3 +27,21 @@ h3 { font-size: 14px; margin-bottom: 6px; color: #ffd700; }
   #poses-grid, #effects-grid { grid-template-columns: repeat(2, 1fr); }
   .pose-btn, .effect-btn { font-size: 11px; padding: 6px; }
 }
+
+.back-btn {
+  display: inline-block;
+  margin: 16px auto;
+  padding: 8px 20px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px;
+  color: #94a3b8;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
