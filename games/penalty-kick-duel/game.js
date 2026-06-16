@@ -236,12 +236,9 @@
     var KW = KEEPER_WIDTH;
     var KH = KEEPER_HEIGHT;
 
-    var diveAngle = 0;
-    if (state.keeper.diving) {
-      var dx = state.keeper.targetX - state.keeper.x;
-      var dy = state.keeper.targetY - state.keeper.y;
-      diveAngle = Math.atan2(dy, dx) * 0.3;
-    }
+    var diveAngle = state.keeper.diving ? (state.keeper.diveAngle || 0) * 0.4 : 0;
+    var diveProgress = state.keeper.diving ? Math.min(1, Math.abs(kx - W / 2) / 80) : 0;
+    var armExtend = 10 + diveProgress * 35;
 
     ctx.save();
     ctx.translate(kx, ky + KH / 2);
@@ -259,9 +256,8 @@
     ctx.fillRect(-8, -KH / 2 - 14, 16, 6);
 
     ctx.fillStyle = '#ff9800';
-    var armSpread = state.keeper.diving ? 30 : 10;
-    ctx.fillRect(-KW / 2 - armSpread, -5, armSpread, 8);
-    ctx.fillRect(KW / 2, -5, armSpread, 8);
+    ctx.fillRect(-KW / 2 - armExtend, -5, armExtend, 8);
+    ctx.fillRect(KW / 2, -5, armExtend, 8);
 
     ctx.fillStyle = '#222';
     ctx.fillRect(-10, KH * 0.1, 9, KH * 0.4);
@@ -347,12 +343,10 @@
     var speed = state.keeper.speed * state.difficulty;
     var dx = state.keeper.targetX - state.keeper.x;
     var dy = state.keeper.targetY - state.keeper.y;
-    if (Math.abs(dx) > 1) {
-      state.keeper.x += Math.sign(dx) * speed * dt * 60;
-    }
-    if (Math.abs(dy) > 1) {
-      state.keeper.y += Math.sign(dy) * speed * 0.8 * dt * 60;
-    }
+    var ease = 0.08;
+    state.keeper.x += dx * ease * speed * dt * 60;
+    state.keeper.y += dy * ease * speed * dt * 60;
+    state.keeper.diveAngle = Math.atan2(dy, dx);
   }
 
   function updateBall(dt) {
