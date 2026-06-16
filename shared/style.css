@@ -68,3 +68,24 @@ h1 {
   color: #94a3b8;
   font-size: 0.95rem;
 }
+
+.hub-footer {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.refresh-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #94a3b8;
+  padding: 8px 20px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
