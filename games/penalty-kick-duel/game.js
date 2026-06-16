@@ -127,7 +127,7 @@
       }
     } else {
       state.round++;
-      state.difficulty = 1 + (state.round - 1) * 0.4;
+      state.difficulty = 1 + (state.round - 1) * 0.6;
       updateHud();
       showGetReady();
     }
@@ -343,7 +343,7 @@
     var speed = state.keeper.speed * state.difficulty;
     var dx = state.keeper.targetX - state.keeper.x;
     var dy = state.keeper.targetY - state.keeper.y;
-    var ease = 0.08;
+    var ease = 0.12 + state.difficulty * 0.03;
     state.keeper.x += dx * ease * speed * dt * 60;
     state.keeper.y += dy * ease * speed * dt * 60;
     state.keeper.diveAngle = Math.atan2(dy, dx);
@@ -439,23 +439,24 @@
     var keeperBiasX = (targetX - W / 2) / (GOAL_WIDTH / 2);
     var keeperBiasY = (targetY - (GOAL_Y + GOAL_HEIGHT / 2)) / (GOAL_HEIGHT / 2);
 
+    var accuracy = 0.3 + state.difficulty * 0.12;
     var diveChoice = Math.random();
-    if (diveChoice < 0.4) {
-      state.keeper.targetX = W / 2 + keeperBiasX * 80 + (Math.random() - 0.5) * 50;
-      state.keeper.targetY = (GOAL_Y + GOAL_HEIGHT / 2) + keeperBiasY * 40 + (Math.random() - 0.5) * 30;
-    } else if (diveChoice < 0.7) {
-      state.keeper.targetX = W / 2 + (Math.random() > 0.5 ? 1 : -1) * (50 + Math.random() * 40);
+    if (diveChoice < 0.5) {
+      state.keeper.targetX = W / 2 + keeperBiasX * 80 * accuracy + (Math.random() - 0.5) * (50 - state.difficulty * 5);
+      state.keeper.targetY = (GOAL_Y + GOAL_HEIGHT / 2) + keeperBiasY * 40 * accuracy + (Math.random() - 0.5) * (30 - state.difficulty * 3);
+    } else if (diveChoice < 0.8) {
+      state.keeper.targetX = W / 2 + (Math.random() > 0.5 ? 1 : -1) * (40 + Math.random() * 30);
       state.keeper.targetY = GOAL_Y + 20 + Math.random() * (GOAL_HEIGHT - 40);
     } else {
-      state.keeper.targetX = W / 2 + (Math.random() - 0.5) * 60;
-      state.keeper.targetY = GOAL_Y + GOAL_HEIGHT / 2 + (Math.random() - 0.5) * 30;
+      state.keeper.targetX = W / 2 + keeperBiasX * 30 + (Math.random() - 0.5) * 40;
+      state.keeper.targetY = (GOAL_Y + GOAL_HEIGHT / 2) + keeperBiasY * 20 + (Math.random() - 0.5) * 20;
     }
 
-    state.keeper.targetX = Math.max(GOAL_X + 25, Math.min(GOAL_X + GOAL_WIDTH - 25, state.keeper.targetX));
-    state.keeper.targetY = Math.max(GOAL_Y + 10, Math.min(GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT - 10, state.keeper.targetY));
+    state.keeper.targetX = Math.max(GOAL_X + 20, Math.min(GOAL_X + GOAL_WIDTH - 20, state.keeper.targetX));
+    state.keeper.targetY = Math.max(GOAL_Y + 5, Math.min(GOAL_Y + GOAL_HEIGHT - KEEPER_HEIGHT - 5, state.keeper.targetY));
     state.keeper.diving = true;
     state.keeper.diveDir = state.keeper.targetX > state.keeper.x ? 1 : -1;
-    state.keeper.speed = 2 + state.difficulty * 0.8;
+    state.keeper.speed = 2.5 + state.difficulty * 1.0;
   }
 
   var powerCharging = false;
