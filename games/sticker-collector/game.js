@@ -5,6 +5,7 @@
   const startBtn = document.getElementById('start-btn');
   const scoreEl = document.getElementById('score-display');
   const collectedEl = document.getElementById('collected-display');
+  const livesEl = document.getElementById('lives-display');
   const timerEl = document.getElementById('timer-display');
 
   const FLAGS = ['🇧🇷','🇦🇷','🇫🇷','🇩🇪','🇪🇸','🇮🇹','🇬🇧','🇵🇹','🇳🇱','🇧🇪','🇯🇵','🇰🇷','🇲🇽','🇺🇸','🇨🇴','🇦🇺'];
@@ -13,8 +14,24 @@
   const STICKER_SIZE = 40;
   const SPEED_INITIAL = 1.5;
   const SPEED_INCREMENT = 0.1;
+  const MAX_LIVES = 3;
+  const TIME_LIMIT = 90;
 
-  let state = { mode: 'title', fallingSticker: null, basketX: canvas.width / 2, collected: [], score: 0, timer: 0, duplicates: 0, setComplete: false, speed: SPEED_INITIAL, spawnTimer: 0 };
+  let state = {
+    mode: 'title',
+    fallingSticker: null,
+    basketX: canvas.width / 2,
+    collected: [],
+    score: 0,
+    timer: TIME_LIMIT,
+    lives: MAX_LIVES,
+    duplicates: 0,
+    setComplete: false,
+    speed: SPEED_INITIAL,
+    spawnTimer: 0,
+    missFlash: 0,
+    catchFlash: 0
+  };
 
   function spawnSticker() {
     const uncollected = FLAGS.filter(f => !state.collected.includes(f));
@@ -32,11 +49,14 @@
       basketX: canvas.width / 2,
       collected: [],
       score: 0,
-      timer: 0,
+      timer: TIME_LIMIT,
+      lives: MAX_LIVES,
       duplicates: 0,
       setComplete: false,
       speed: SPEED_INITIAL,
-      spawnTimer: 0
+      spawnTimer: 0,
+      missFlash: 0,
+      catchFlash: 0
     };
     overlay.classList.add('hidden');
     spawnSticker();
@@ -48,7 +68,7 @@
     state.score += bonus;
     overlay.classList.remove('hidden');
     overlay.innerHTML = `
-      <h1>${won ? 'SET COMPLETE!' : 'TIME\'S UP!'}</h1>
+      <h1>${won ? 'SET COMPLETE!' : state.lives <= 0 ? 'NO LIVES!' : 'TIME\'S UP!'}</h1>
       <h2>Final Score: ${state.score}</h2>
       <p>Stickers collected: ${state.collected.length}/16</p>
       <p>Duplicates: ${state.duplicates}</p>
@@ -68,7 +88,6 @@
     const x = state.basketX - BASKET_W / 2;
     const y = canvas.height - BASKET_H - 10;
 
-    // Basket body
     ctx.fillStyle = '#fbbf24';
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -78,9 +97,13 @@
     ctx.closePath();
     ctx.fill();
 
-    // Basket rim
     ctx.fillStyle = '#d97706';
     ctx.fillRect(x - 5, y - 5, BASKET_W + 10, 8);
+
+    ctx.fillStyle = '#fff';
+    ctx.font = '10px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('CATCH HERE', state.basketX, y - 8);
 
     return { x, y };
   }
@@ -93,11 +116,19 @@
     ctx.textBaseline = 'middle';
     ctx.fillText(s.flag, s.x, s.y);
 
-    // Glow effect
     ctx.shadowColor = '#a78bfa';
     ctx.shadowBlur = 15;
     ctx.fillText(s.flag, s.x, s.y);
     ctx.shadowBlur = 0;
+
+    ctx.strokeStyle = 'rgba(167,139,250,0.4)';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([4, 4]);
+    ctx.beginPath();
+    ctx.moveTo(s.x, s.y + STICKER_SIZE / 2 + 5);
+    ctx.lineTo(s.x, canvas.height - BASKET_H - 15);
+    ctx.stroke();
+    ctx.setLineDash([]);
   }
 
   function drawCollected() {
@@ -115,39 +146,64 @@
     }
   }
 
+  function drawLives() {
+    const x = canvas.width - 60;
+    const y = 50;
+    ctx.font = '16px sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.textAlign = 'right';
+    for (let i = 0; i < MAX_LIVES; i++) {
+      ctx.fillStyle = i < state.lives ? '#f44' : '#555';
+      ctx.fillText('❤️', x - i * 22, y);
+    }
+  }
+
   function render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     if (state.mode === 'title') return;
 
-    // Background field
     const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
     grad.addColorStop(0, '#1a2744');
     grad.addColorStop(1, '#0d1f3c');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // Speed indicator
-    ctx.fillStyle = 'rgba(167,139,250,0.3)';
-    ctx.fillRect(0, canvas.height - 5, canvas.width * ((state.speed - SPEED_INITIAL) / (SPEED_INCREMENT * 20)), 5);
+    if (state.missFlash > 0) {
+      ctx.fillStyle = `rgba(255,0,0,${state.missFlash * 0.3})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    if (state.catchFlash > 0) {
+      ctx.fillStyle = `rgba(0,255,100,${state.catchFlash * 0.2})`;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
 
     drawSticker();
     drawBasket();
     drawCollected();
+    drawLives();
 
     scoreEl.textContent = `Score: ${state.score}`;
     collectedEl.textContent = `Collected: ${state.collected.length}/16`;
-    timerEl.textContent = `Time: ${Math.floor(state.timer)}s`;
+    livesEl.textContent = `Lives: ${state.lives}`;
+    timerEl.textContent = `Time: ${Math.ceil(state.timer)}s`;
   }
 
   function update(dt) {
     if (state.mode !== 'playing') return;
-    state.timer += dt;
+
+    state.timer -= dt;
+    if (state.timer <= 0) {
+      state.timer = 0;
+      endGame(false);
+      return;
+    }
+
     state.spawnTimer += dt;
+    state.speed = SPEED_INITIAL + Math.floor((TIME_LIMIT - state.timer) / 5) * SPEED_INCREMENT;
+    state.missFlash = Math.max(0, state.missFlash - dt * 3);
+    state.catchFlash = Math.max(0, state.catchFlash - dt * 3);
 
-    // Increase speed over time
-    state.speed = SPEED_INITIAL + Math.floor(state.timer / 5) * SPEED_INCREMENT;
-
-    if (!state.fallingSticker || state.spawnTimer > 2) {
+    if (!state.fallingSticker || state.spawnTimer > 1.5) {
       spawnSticker();
     }
 
@@ -159,7 +215,6 @@
       const basketLeft = state.basketX - BASKET_W / 2;
       const basketRight = state.basketX + BASKET_W / 2;
 
-      // Check catch
       if (s.y + STICKER_SIZE / 2 >= basketY && s.x >= basketLeft - 10 && s.x <= basketRight + 10) {
         const isDuplicate = state.collected.includes(s.flag);
         if (isDuplicate) {
@@ -169,10 +224,10 @@
           state.score += 10;
           state.collected.push(s.flag);
         }
+        state.catchFlash = 1;
         state.fallingSticker = null;
         state.spawnTimer = 0;
 
-        // Check win
         if (state.collected.length >= FLAGS.length) {
           state.setComplete = true;
           endGame(true);
@@ -182,10 +237,17 @@
         setTimeout(() => { if (state.mode === 'playing') spawnSticker(); }, 500);
       }
 
-      // Check miss (fell off screen)
       if (s && s.y > canvas.height + STICKER_SIZE) {
+        state.lives--;
+        state.missFlash = 1;
         state.fallingSticker = null;
         state.spawnTimer = 0;
+
+        if (state.lives <= 0) {
+          endGame(false);
+          return;
+        }
+
         setTimeout(() => { if (state.mode === 'playing') spawnSticker(); }, 800);
       }
     }
@@ -202,7 +264,6 @@
     }
   });
 
-  // Touch/mouse control
   canvas.addEventListener('mousemove', (e) => {
     if (state.mode !== 'playing') return;
     const rect = canvas.getBoundingClientRect();
@@ -228,7 +289,8 @@
       basketX: state.basketX,
       collected: state.collected,
       score: state.score,
-      timer: Math.floor(state.timer),
+      timer: Math.ceil(state.timer),
+      lives: state.lives,
       duplicates: state.duplicates,
       setComplete: state.setComplete,
       speed: state.speed
@@ -239,18 +301,16 @@
 
   startBtn.addEventListener('click', startGame);
 
-  // Game loop
   let lastTime = 0;
   function loop(ts) {
     if (lastTime && state.mode === 'playing') {
-      const dt = (ts - lastTime) / 1000;
+      const dt = Math.min((ts - lastTime) / 1000, 0.1);
       update(dt);
     }
     lastTime = ts;
     render();
     requestAnimationFrame(loop);
   }
-  requestAnimationFrame(loop);
 
-  render();
+  requestAnimationFrame(loop);
 })();

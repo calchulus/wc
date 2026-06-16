@@ -10,7 +10,8 @@
   var startBtn = document.getElementById('start-btn');
 
   var GRAVITY = 0.2;
-  var RESTITUTION = 0.7;
+  var RESTITUTION = 0.5;
+  var FRICTION = 0.92;
   var PLAYER_R = 12;
   var BALL_R = 8;
   var GOAL_HEIGHT = 50;
@@ -164,6 +165,8 @@
     p.x += p.vx * dt;
     p.y += p.vy * dt;
     p.vy += GRAVITY;
+    p.vx *= FRICTION;
+    p.vy *= FRICTION;
 
     b.x += p.vx * dt * 0.3;
     b.y += p.vy * dt * 0.3;

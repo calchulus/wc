@@ -14,20 +14,25 @@
     <div id="hud">
       <span id="score-display">Score: 0</span>
       <span id="collected-display">Collected: 0/16</span>
-      <span id="timer-display">Time: 0</span>
+      <span id="lives-display">Lives: 3</span>
+      <span id="timer-display">Time: 90s</span>
     </div>
     <canvas id="gameCanvas" width="480" height="640"></canvas>
     <div id="overlay">
       <h1>STICKER COLLECTOR</h1>
-      <p>Catch falling country flag stickers!</p>
-      <p>Collect all 16 unique flags to win</p>
-      <p>← → or A/D to move basket</p>
-      <p>Duplicates cost 5 points!</p>
+      <div class="instructions">
+        <p>Move the basket to catch falling flag stickers!</p>
+        <p><strong>← → arrow keys</strong> or <strong>touch/drag</strong> to move</p>
+        <p>Collect all 16 unique flags to win</p>
+        <p>Miss a sticker = lose a life (3 lives)</p>
+        <p>Duplicates cost 5 points</p>
+        <p>90 second time limit</p>
+      </div>
       <button class="btn" id="start-btn">START COLLECTING</button>
     </div>
   </div>
   <div id="leaderboard-container"></div>
-    <a href="../../index.html" class="back-btn">← Back to All Games</a>
+  <a href="../../index.html" class="back-btn">← Back to All Games</a>
   <script src="../../shared/leaderboard.js"></script>
   <script src="game.js"></script>
 </body>

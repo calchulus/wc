@@ -77,11 +77,15 @@
         } else {
           html += '<span class="incorrect">' + escapeHtml(text[i]) + '</span>';
         }
-      } else if (i === typed.length) {
-        html += '<span class="cursor">' + escapeHtml(text[i]) + '</span>';
       } else {
-        html += escapeHtml(text[i]);
+        if (i === typed.length) {
+          html += '<span class="cursor-line">|</span>';
+        }
+        html += '<span class="pending">' + escapeHtml(text[i]) + '</span>';
       }
+    }
+    if (typed.length >= text.length) {
+      html += '<span class="cursor-line">|</span>';
     }
     commentaryEl.textContent = '';
     typedEl.innerHTML = html;

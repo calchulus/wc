@@ -14,6 +14,8 @@
   var ROWS = 8;
   var CELL_W = W / COLS;
   var CELL_H = H / ROWS;
+  var GUARD_MOVE_INTERVAL = 500;
+  var TIME_PER_LEVEL = 30;
 
   var ITEM_TYPES = ['👕', '⚽', '🧣'];
 
@@ -31,7 +33,9 @@
     itemsCollected: 0,
     totalItems: 0,
     timeSteps: 0,
-    lastTime: 0
+    lastTime: 0,
+    timeLeft: TIME_PER_LEVEL,
+    guardTimer: 0
   };
 
   function createGuards(level) {
@@ -78,6 +82,8 @@
     state.spotted = false;
     state.itemsCollected = 0;
     state.totalItems = state.items.length;
+    state.timeLeft = TIME_PER_LEVEL;
+    state.guardTimer = 0;
     updateHud();
   }
 
@@ -85,6 +91,7 @@
     hudScore.textContent = 'Score: ' + state.score;
     hudLevel.textContent = 'Level: ' + state.level;
     hudItems.textContent = 'Items: ' + state.itemsCollected + '/' + state.totalItems;
+    document.getElementById('timer-display').textContent = 'Time: ' + Math.ceil(state.timeLeft) + 's';
   }
 
   function showOverlay(title, subtitle, details, buttonText) {
@@ -258,13 +265,33 @@
     state.lastTime = timestamp;
 
     if (state.mode === 'playing') {
-      moveGuards();
+      state.timeLeft -= dt;
+      if (state.timeLeft <= 0) {
+        state.timeLeft = 0;
+        state.mode = 'gameover';
+        showOverlay('TIME\'S UP!', 'Final Score: ' + state.score, ['Level: ' + state.level], 'PLAY AGAIN');
+        if (typeof Leaderboard !== 'undefined') {
+          Leaderboard.promptName(function (name) {
+            Leaderboard.addScore('hide-seek', state.score, name);
+            Leaderboard.renderLeaderboard('hide-seek', 'leaderboard-container', state.score);
+          });
+        }
+        return;
+      }
+
+      state.guardTimer += dt * 1000;
+      if (state.guardTimer >= GUARD_MOVE_INTERVAL) {
+        state.guardTimer -= GUARD_MOVE_INTERVAL;
+        moveGuards();
+      }
+
       if (checkSpotted()) {
         state.spotted = true;
         state.score = Math.max(0, state.score - 50);
         updateHud();
-        loadLevel();
+        setTimeout(function () { loadLevel(); }, 800);
       }
+      updateHud();
     }
 
     draw();
