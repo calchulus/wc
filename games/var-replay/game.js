@@ -150,7 +150,7 @@
     ctx.fillStyle = '#1a5c2a';
     ctx.fillRect(0, 0, W, H);
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.2)';
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.moveTo(W/2, 0); ctx.lineTo(W/2, H);
@@ -159,47 +159,49 @@
     ctx.arc(W/2, H/2, 60, 0, Math.PI*2);
     ctx.stroke();
 
-    ctx.strokeRect(20, H/2-100, 120, 200);
-    ctx.strokeRect(W-140, H/2-100, 120, 200);
-    ctx.strokeRect(20, H/2-50, 50, 100);
-    ctx.strokeRect(W-70, H/2-50, 50, 100);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fillStyle = 'rgba(255,255,255,0.06)';
     ctx.fillRect(W-140, H/2-100, 120, 200);
     ctx.fillRect(20, H/2-100, 120, 200);
 
-    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+    ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(W-140, H/2-100, 120, 200);
+    ctx.strokeRect(20, H/2-100, 120, 200);
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
     ctx.lineWidth = 1;
-    for (let x = W-140; x <= W-20; x += 15) {
-      ctx.beginPath();
-      ctx.moveTo(x, H/2-100);
-      ctx.lineTo(x, H/2+100);
-      ctx.stroke();
+    var netSpacing = 20;
+    for (let x = W-140; x <= W-20; x += netSpacing) {
+      ctx.beginPath(); ctx.moveTo(x, H/2-100); ctx.lineTo(x, H/2+100); ctx.stroke();
     }
-    for (let y = H/2-100; y <= H/2+100; y += 15) {
-      ctx.beginPath();
-      ctx.moveTo(W-140, y);
-      ctx.lineTo(W-20, y);
-      ctx.stroke();
+    for (let y = H/2-100; y <= H/2+100; y += netSpacing) {
+      ctx.beginPath(); ctx.moveTo(W-140, y); ctx.lineTo(W-20, y); ctx.stroke();
     }
-    for (let x = 20; x <= 140; x += 15) {
-      ctx.beginPath();
-      ctx.moveTo(x, H/2-100);
-      ctx.lineTo(x, H/2+100);
-      ctx.stroke();
+    for (let x = 20; x <= 140; x += netSpacing) {
+      ctx.beginPath(); ctx.moveTo(x, H/2-100); ctx.lineTo(x, H/2+100); ctx.stroke();
     }
-    for (let y = H/2-100; y <= H/2+100; y += 15) {
-      ctx.beginPath();
-      ctx.moveTo(20, y);
-      ctx.lineTo(140, y);
-      ctx.stroke();
+    for (let y = H/2-100; y <= H/2+100; y += netSpacing) {
+      ctx.beginPath(); ctx.moveTo(20, y); ctx.lineTo(140, y); ctx.stroke();
     }
 
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    ctx.font = 'bold 11px sans-serif';
+    ctx.fillStyle = '#fff';
+    ctx.fillRect(W-142, H/2-102, 6, 204);
+    ctx.fillRect(W-22, H/2-102, 6, 204);
+    ctx.fillRect(W-144, H/2-106, 128, 6);
+
+    ctx.fillRect(18, H/2-102, 6, 204);
+    ctx.fillRect(138, H/2-102, 6, 204);
+    ctx.fillRect(16, H/2-106, 128, 6);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.font = 'bold 13px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('DEFENSE', 80, H/2 - 110);
-    ctx.fillText('GOAL →', W - 80, H/2 - 110);
+    ctx.fillText('DEFENSE', 80, H/2 - 115);
+    ctx.fillText('⚽ GOAL', W - 80, H/2 - 115);
+    ctx.font = '11px sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fillText('← YOUR END', 80, H/2 + 125);
+    ctx.fillText('TARGET END →', W - 80, H/2 + 125);
     ctx.textAlign = 'left';
   }
 
