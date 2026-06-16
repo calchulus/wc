@@ -211,6 +211,8 @@ function drawStickFigure(pose, t) {
       rotation = -0.3;
       leftArmAngle = -1.2;
       rightArmAngle = -1.2;
+      leftLegAngle = -0.8;
+      rightLegAngle = 0.6;
       bodyOffset = Math.sin(t * 4) * 5;
       break;
     case 'dance':
@@ -237,11 +239,12 @@ function drawStickFigure(pose, t) {
       bodyOffset = Math.abs(Math.sin(t * 3)) * -40;
       break;
     case 'knee':
-      rotation = -0.2;
+      rotation = -0.15;
       leftArmAngle = -1.5;
       rightArmAngle = 0.5;
-      leftLegAngle = -1.2;
-      bodyOffset = Math.sin(t * 3) * 8;
+      leftLegAngle = -1.8;
+      rightLegAngle = 0.8;
+      bodyOffset = Math.sin(t * 3) * 6;
       break;
   }
 
@@ -275,16 +278,36 @@ function drawStickFigure(pose, t) {
   ctx.lineTo(Math.sin(rightArmAngle) * -30, -25 + Math.cos(rightArmAngle) * 30);
   ctx.stroke();
 
-  // Left leg
+  // Left leg - upper
   ctx.beginPath();
   ctx.moveTo(0, 10);
-  ctx.lineTo(Math.sin(leftLegAngle) * 15, 10 + Math.cos(leftLegAngle) * 40);
+  var lKneeX = Math.sin(leftLegAngle) * 12;
+  var lKneeY = 10 + Math.cos(leftLegAngle) * 20;
+  ctx.lineTo(lKneeX, lKneeY);
   ctx.stroke();
 
-  // Right leg
+  // Left leg - lower
+  ctx.beginPath();
+  ctx.moveTo(lKneeX, lKneeY);
+  var lFootX = lKneeX + Math.sin(leftLegAngle * 0.5) * 10;
+  var lFootY = lKneeY + Math.cos(leftLegAngle * 0.5) * 20;
+  ctx.lineTo(lFootX, lFootY);
+  ctx.stroke();
+
+  // Right leg - upper
   ctx.beginPath();
   ctx.moveTo(0, 10);
-  ctx.lineTo(Math.sin(rightLegAngle) * -15, 10 + Math.cos(rightLegAngle) * 40);
+  var rKneeX = Math.sin(rightLegAngle) * -12;
+  var rKneeY = 10 + Math.cos(rightLegAngle) * 20;
+  ctx.lineTo(rKneeX, rKneeY);
+  ctx.stroke();
+
+  // Right leg - lower
+  ctx.beginPath();
+  ctx.moveTo(rKneeX, rKneeY);
+  var rFootX = rKneeX + Math.sin(rightLegAngle * 0.5) * -10;
+  var rFootY = rKneeY + Math.cos(rightLegAngle * 0.5) * 20;
+  ctx.lineTo(rFootX, rFootY);
   ctx.stroke();
 
   // Jersey
@@ -293,7 +316,7 @@ function drawStickFigure(pose, t) {
 
   // Shorts
   ctx.fillStyle = '#333';
-  ctx.fillRect(-10, 10, 20, 15);
+  ctx.fillRect(-10, 10, 20, 12);
 
   ctx.restore();
 
