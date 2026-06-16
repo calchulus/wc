@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a1628">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>🏆 Leaderboard - World Cup Mini Games</title>
+  <link rel="stylesheet" href="shared/style.css">
+  <link rel="stylesheet" href="shared/leaderboard.css">
+  <style>
+    .lb-page { max-width: 800px; margin: 0 auto; padding: 40px 20px; }
+    .lb-page h1 { font-size: 2.5rem; margin-bottom: 8px; }
+    .lb-page .subtitle { color: #94a3b8; margin-bottom: 30px; }
+    .game-lb { margin-bottom: 24px; }
+    .game-lb h3 { color: #fbbf24; font-size: 1.1rem; margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .lb-entry { display: flex; align-items: center; gap: 8px; padding: 6px 10px; background: rgba(255,255,255,0.03); border-radius: 6px; margin-bottom: 4px; font-size: 0.85rem; }
+    .lb-rank { width: 24px; text-align: center; font-weight: bold; }
+    .lb-name { flex: 1; color: #e2e8f0; }
+    .lb-score { font-weight: bold; color: #fbbf24; }
+    .lb-empty { color: #64748b; font-size: 0.8rem; padding: 4px 0; }
+    .clear-btn { margin-top: 20px; background: rgba(255,68,68,0.15); border: 1px solid rgba(255,68,68,0.3); color: #ff6b6b; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 0.85rem; }
+    .clear-btn:hover { background: rgba(255,68,68,0.25); }
+  </style>
+</head>
+<body>
+  <div class="lb-page">
+    <h1>🏆 Leaderboard</h1>
+    <p class="subtitle">Your best scores across all 20 games</p>
+    <div id="all-leaderboards"></div>
+    <button class="clear-btn" onclick="clearAll()">Clear All Scores</button>
+  </div>
+  <a href="index.html" class="back-btn" style="display:block;text-align:center;margin:20px auto;">← Back to All Games</a>
+
+  <script src="shared/leaderboard.js"></script>
+  <script>
+    var games = [
+      { id: 'penalty-kick-duel', name: 'Penalty Kick Duel' },
+      { id: 'var-replay', name: 'VAR Replay' },
+      { id: 'kit-designer', name: 'Kit Designer' },
+      { id: 'penalty-marathon', name: 'Penalty Marathon' },
+      { id: 'formation-tactician', name: 'Formation Tactician' },
+      { id: 'goal-celebration', name: 'Goal Celebration' },
+      { id: 'bracket-predictor', name: 'Bracket Predictor' },
+      { id: 'ref-simulator', name: 'Ref Simulator' },
+      { id: 'crowd-wave', name: 'Crowd Wave' },
+      { id: 'stadium-builder', name: 'Stadium Builder' },
+      { id: 'jigsaw', name: 'Stadium Jigsaw' },
+      { id: 'maze', name: 'World Cup Maze' },
+      { id: 'sticker-collector', name: 'Sticker Collector' },
+      { id: 'penalty-wall', name: 'Penalty Wall' },
+      { id: 'typing-race', name: 'Commentary Typing' },
+      { id: 'draw-play', name: 'Draw the Play' },
+      { id: 'soccer-physics', name: 'Soccer Physics' },
+      { id: 'hide-seek', name: 'Fan Hide & Seek' },
+      { id: 'photo-album', name: 'Fan Photo Album' },
+      { id: 'foodtruck', name: 'Food Truck Rally' }
+    ];
+
+    var container = document.getElementById('all-leaderboards');
+    var hasScores = false;
+
+    games.forEach(function(game) {
+      var scores = Leaderboard.getScores(game.id);
+      var div = document.createElement('div');
+      div.className = 'game-lb';
+
+      var html = '<h3>' + game.name + '</h3>';
+      if (scores.length === 0) {
+        html += '<div class="lb-empty">No scores yet</div>';
+      } else {
+        scores.forEach(function(entry, i) {
+          var medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : (i + 1) + '.';
+          html += '<div class="lb-entry">';
+          html += '<span class="lb-rank">' + medal + '</span>';
+          html += '<span class="lb-name">' + entry.name + '</span>';
+          html += '<span class="lb-score">' + entry.score + '</span>';
+          html += '</div>';
+        });
+        hasScores = true;
+      }
+
+      div.innerHTML = html;
+      container.appendChild(div);
+    });
+
+    function clearAll() {
+      if (confirm('Clear all leaderboard scores?')) {
+        games.forEach(function(game) { Leaderboard.clearGame(game.id); });
+        location.reload();
+      }
+    }
+  </script>
+</body>
+</html>
