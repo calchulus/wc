@@ -6,7 +6,7 @@ const state = {
     accentColor: '#FFFFFF',
     sleeveColor: '#FF0000',
     pattern: 'solid',
-    logoPosition: 'chest',
+    view: 'front',
     playerNumber: 10,
     playerName: 'MESSI',
     team: 'custom',
@@ -53,19 +53,22 @@ function drawJersey() {
 
     drawDetails(centerX, jerseyTop, jerseyBottom, jerseyWidth);
 
-    if (state.logoPosition === 'chest') {
-        drawLogo(centerX, jerseyTop + 100);
+    if (state.view === 'front') {
+        drawLogo(centerX, jerseyTop + 100, 35);
+        if (state.playerNumber >= 0 && state.playerNumber <= 99) {
+            drawNumber(centerX, jerseyTop + 220, 70);
+        }
+    } else {
+        if (state.playerName) {
+            drawName(centerX, jerseyTop + 80, 22);
+        }
+        if (state.playerNumber >= 0 && state.playerNumber <= 99) {
+            drawNumber(centerX, jerseyTop + 200, 85);
+        }
+        drawLogo(centerX, jerseyTop + 320, 18);
     }
 
     ctx.restore();
-
-    if (state.playerName) {
-        drawName(centerX, jerseyTop + 60);
-    }
-
-    if (state.playerNumber >= 0 && state.playerNumber <= 99) {
-        drawNumber(centerX, jerseyTop + 200);
-    }
 }
 
 function drawBody(centerX, top, bottom, width) {
@@ -170,6 +173,21 @@ function applyPattern(x, y, width, height) {
         case 'gradient':
             drawGradient(x, y, width, height);
             break;
+        case 'zigzag':
+            drawZigzag(x, y, width, height);
+            break;
+        case 'checker':
+            drawChecker(x, y, width, height);
+            break;
+        case 'stars':
+            drawStars(x, y, width, height);
+            break;
+        case 'diagonal':
+            drawDiagonal(x, y, width, height);
+            break;
+        case 'waves':
+            drawWaves(x, y, width, height);
+            break;
     }
 
     ctx.restore();
@@ -219,8 +237,104 @@ function drawGradient(x, y, width, height) {
     ctx.fillRect(x - width / 2, y, width, height);
 }
 
-function drawLogo(x, y) {
-    const size = 35;
+function drawZigzag(x, y, width, height) {
+    const zigHeight = 20;
+    const zigWidth = 30;
+    ctx.fillStyle = state.accentColor;
+    for (let row = 0; row < height; row += zigHeight * 2) {
+        ctx.beginPath();
+        for (let col = 0; col <= width; col += zigWidth) {
+            const px = x - width / 2 + col;
+            const py = y + row + (col % (zigWidth * 2) === 0 ? 0 : zigHeight);
+            if (col === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        for (let col = width; col >= 0; col -= zigWidth) {
+            const px = x - width / 2 + col;
+            const py = y + row + zigHeight + (col % (zigWidth * 2) === 0 ? zigHeight : 0);
+            ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+    }
+}
+
+function drawChecker(x, y, width, height) {
+    const size = 25;
+    ctx.fillStyle = state.accentColor;
+    for (let row = 0; row < height; row += size) {
+        for (let col = 0; col < width; col += size) {
+            if ((Math.floor(row / size) + Math.floor(col / size)) % 2 === 0) {
+                ctx.fillRect(x - width / 2 + col, y + row, size, size);
+            }
+        }
+    }
+}
+
+function drawStars(x, y, width, height) {
+    const starSize = 12;
+    const spacing = 40;
+    ctx.fillStyle = state.accentColor;
+    for (let row = spacing / 2; row < height; row += spacing) {
+        for (let col = spacing / 2; col < width; col += spacing) {
+            const sx = x - width / 2 + col;
+            const sy = y + row;
+            ctx.beginPath();
+            for (let i = 0; i < 5; i++) {
+                const angle = (i * 4 * Math.PI) / 5 - Math.PI / 2;
+                const px = sx + Math.cos(angle) * starSize;
+                const py = sy + Math.sin(angle) * starSize;
+                if (i === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+    }
+}
+
+function drawDiagonal(x, y, width, height) {
+    const stripeWidth = 20;
+    ctx.fillStyle = state.accentColor;
+    ctx.save();
+    ctx.beginPath();
+    ctx.rect(x - width / 2, y, width, height);
+    ctx.clip();
+    for (let i = -height; i < width + height; i += stripeWidth * 2) {
+        ctx.beginPath();
+        ctx.moveTo(x - width / 2 + i, y);
+        ctx.lineTo(x - width / 2 + i + stripeWidth, y);
+        ctx.lineTo(x - width / 2 + i + stripeWidth + height, y + height);
+        ctx.lineTo(x - width / 2 + i + height, y + height);
+        ctx.closePath();
+        ctx.fill();
+    }
+    ctx.restore();
+}
+
+function drawWaves(x, y, width, height) {
+    const waveHeight = 15;
+    const waveWidth = 40;
+    ctx.fillStyle = state.accentColor;
+    for (let row = 0; row < height; row += waveHeight * 2) {
+        ctx.beginPath();
+        ctx.moveTo(x - width / 2, y + row);
+        for (let col = 0; col <= width; col += 5) {
+            const px = x - width / 2 + col;
+            const py = y + row + Math.sin(col / waveWidth * Math.PI) * waveHeight;
+            ctx.lineTo(px, py);
+        }
+        for (let col = width; col >= 0; col -= 5) {
+            const px = x - width / 2 + col;
+            const py = y + row + waveHeight + Math.sin(col / waveWidth * Math.PI) * waveHeight;
+            ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+    }
+}
+
+function drawLogo(x, y, size) {
     ctx.beginPath();
     ctx.arc(x, y, size, 0, Math.PI * 2);
     ctx.fillStyle = state.accentColor;
@@ -240,8 +354,8 @@ function drawLogo(x, y) {
     ctx.fill();
 }
 
-function drawName(x, y) {
-    ctx.font = 'bold 18px Arial';
+function drawName(x, y, size) {
+    ctx.font = 'bold ' + size + 'px Arial';
     ctx.fillStyle = state.accentColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -251,8 +365,8 @@ function drawName(x, y) {
     ctx.fillText(state.playerName, x, y);
 }
 
-function drawNumber(x, y) {
-    ctx.font = 'bold 80px Arial';
+function drawNumber(x, y, size) {
+    ctx.font = 'bold ' + size + 'px Arial';
     ctx.fillStyle = state.accentColor;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -418,7 +532,7 @@ document.querySelectorAll('.logo-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         document.querySelectorAll('.logo-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        state.logoPosition = btn.dataset.logo;
+        state.view = btn.dataset.view;
         drawJersey();
     });
 });
